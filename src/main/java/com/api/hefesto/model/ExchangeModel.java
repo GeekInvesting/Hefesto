@@ -23,7 +23,7 @@ public class ExchangeModel implements Serializable {
     @Column(nullable = false, length = 50)
     private String exchangeName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 5)
     private String exchangeCode;
 
     @Column(length = 3)
