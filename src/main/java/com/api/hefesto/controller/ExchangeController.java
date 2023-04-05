@@ -44,7 +44,7 @@ public class ExchangeController {
     private ExchangeModel exchangeModel;
 
     @PostMapping
-    public ResponseEntity<Object> createExchange(@Valid @RequestBody ExchangeDto exchangeDto) {
+    public ResponseEntity<Object> createExchange(@Valid @RequestBody ExchangeDto exchangeDto) throws Exception {
         LOG.info("Create exchange: " + exchangeDto.toString());
 
         if (exchangeDto.getExchangeName() == null) {
@@ -79,6 +79,10 @@ public class ExchangeController {
         exchangeModel.setExchangeDeleted(false);
 
         ExchangeModel exchangeCreated = exchangeService.saveExchange(exchangeModel);
+
+        if(exchangeCreated == null){
+            throw new Exception("Created Exchange as failed!");
+        }
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("{/id}")
