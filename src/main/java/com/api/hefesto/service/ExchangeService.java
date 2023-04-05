@@ -1,5 +1,7 @@
 package com.api.hefesto.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,4 +17,21 @@ public class ExchangeService {
     public ExchangeModel saveExchange(ExchangeModel exchangeModel){
         return exchangeRepository.save(exchangeModel);
     }
+
+    public boolean existsByName(String exchangeName){
+        return exchangeRepository.existsByExchangeNameIgnoreCase(exchangeName);
+    }
+
+    public Optional<ExchangeModel> getExchangeByName(String exchangeName){
+        return exchangeRepository.findByExchangeNameIgnoreCase(exchangeName);
+    }
+
+    public boolean existsByCode(String exchangeCode){
+        return exchangeRepository.existsByExchangeCodeIgnoreCase(exchangeCode);
+    }
+
+    public Optional<ExchangeModel> getExchangeByCode(String exchangeCode){
+        return exchangeRepository.findByExchangeCodeIgnoreCase(exchangeCode);
+    }
+    
 }
