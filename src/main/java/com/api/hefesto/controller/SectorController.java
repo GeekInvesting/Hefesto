@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -169,6 +170,29 @@ public class SectorController {
 
         if (sectorUpdated == null) {
             throw new Exception("Disable Sector as Failed!");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(sectorUpdated);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> deleteSector(@PathVariable UUID id) throws Exception {
+        LOG.info("Delete Sector: " + id);
+
+        Optional<SectorModel> sector = sectorService.getSectorById(id);
+        if (!sector.isPresent()) {
+            throw new ResourceNotFoundException("Sector not Found!");
+        }
+
+        sectorModel.setSectorName(sector.get().getSectorName());
+        sectorModel.setId(id);
+        sectorModel.setSectorEnabled(sector.get().isSectorEnabled());
+        sectorModel.setSectorDeleted(true);
+
+        SectorModel sectorUpdated = sectorService.saveSector(sectorModel);
+
+        if (sectorUpdated == null) {
+            throw new Exception("Delete Sector as Failed!");
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(sectorUpdated);
