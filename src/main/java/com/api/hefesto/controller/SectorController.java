@@ -2,6 +2,8 @@ package com.api.hefesto.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -83,5 +87,90 @@ public class SectorController {
         return ResponseEntity.status(HttpStatus.OK).body(listSector);
     }
 
-    // TODO: Finalizar endpoints Sector
+    @GetMapping("{id}")
+    public ResponseEntity<Object> getSectorById(@PathVariable UUID id) throws Exception {
+        LOG.info("Get Sector by Id: " + id);
+
+        Optional<SectorModel> sector = sectorService.getSectorById(id);
+        if (!sector.isPresent()) {
+            throw new ResourceNotFoundException("Sector not Found!");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(sector);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Object> updateSector(
+            @PathVariable UUID id,
+            @Valid @RequestBody SectorModel sectorDto) throws Exception {
+        LOG.info("Update Sector: " + sectorDto.toString());
+
+        Optional<SectorModel> sector = sectorService.getSectorById(id);
+        if (!sector.isPresent()) {
+            throw new ResourceNotFoundException("Sector not Found!");
+        }
+
+        if (sectorDto.getSectorName() == null) {
+            throw new NotAcceptableException("Sector Name is Required!");
+        }
+
+        sectorModel.setSectorName(sectorDto.getSectorName().trim().toUpperCase());
+        sectorModel.setId(id);
+        sectorModel.setSectorEnabled(sector.get().isSectorEnabled());
+        sectorModel.setSectorDeleted(sector.get().isSectorDeleted());
+
+        SectorModel sectorUpdated = sectorService.saveSector(sectorModel);
+
+        if (sectorUpdated == null) {
+            throw new Exception("Update Sector as Failed!");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(sectorUpdated);
+    }
+
+    @PutMapping("enable/{id}")
+    public ResponseEntity<Object> enableSector(@PathVariable UUID id) throws Exception {
+        LOG.info("Enable Sector: " + id);
+
+        Optional<SectorModel> sector = sectorService.getSectorById(id);
+        if (!sector.isPresent()) {
+            throw new ResourceNotFoundException("Sector not Found!");
+        }
+
+        sectorModel.setSectorName(sector.get().getSectorName());
+        sectorModel.setId(id);
+        sectorModel.setSectorEnabled(true);
+        sectorModel.setSectorDeleted(sector.get().isSectorDeleted());
+
+        SectorModel sectorUpdated = sectorService.saveSector(sectorModel);
+
+        if (sectorUpdated == null) {
+            throw new Exception("Enable Sector as Failed!");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(sectorUpdated);
+    }
+
+    @PutMapping("disable/{id}")
+    public ResponseEntity<Object> disableSector(@PathVariable UUID id) throws Exception {
+        LOG.info("Disable Sector: " + id);
+
+        Optional<SectorModel> sector = sectorService.getSectorById(id);
+        if (!sector.isPresent()) {
+            throw new ResourceNotFoundException("Sector not Found!");
+        }
+
+        sectorModel.setSectorName(sector.get().getSectorName());
+        sectorModel.setId(id);
+        sectorModel.setSectorEnabled(false);
+        sectorModel.setSectorDeleted(sector.get().isSectorDeleted());
+
+        SectorModel sectorUpdated = sectorService.saveSector(sectorModel);
+
+        if (sectorUpdated == null) {
+            throw new Exception("Disable Sector as Failed!");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(sectorUpdated);
+    }
 }
