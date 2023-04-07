@@ -41,7 +41,7 @@ public class ExchangeController {
     @Autowired
     private CountryService countryService;
 
-    private ExchangeModel exchangeModel;
+    private ExchangeModel exchangeModel = new ExchangeModel();
 
     @PostMapping
     public ResponseEntity<Object> createExchange(@Valid @RequestBody ExchangeDto exchangeDto) throws Exception {
@@ -70,6 +70,12 @@ public class ExchangeController {
         if (countryModel.isEmpty()) {
             throw new ResourceNotFoundException("Exchange Country not found! " + exchangeDto.getExchangeCountry());
         }
+        if (!countryModel.get().isCountryEnabled()) {
+            throw new NotAcceptableException("Exchange Country is not enabled! " + exchangeDto.getExchangeCountry());
+        }
+        if (countryModel.get().isCountryDeleted()) {
+            throw new NotAcceptableException("Exchange Country is deleted! " + exchangeDto.getExchangeCountry());
+        }
         exchangeModel.setExchangeCountry(countryModel.get());
 
         // TODO: Adicionar validação de moeda
@@ -80,7 +86,7 @@ public class ExchangeController {
 
         ExchangeModel exchangeCreated = exchangeService.saveExchange(exchangeModel);
 
-        if(exchangeCreated == null){
+        if (exchangeCreated == null) {
             throw new Exception("Created Exchange as failed!");
         }
 
@@ -125,20 +131,27 @@ public class ExchangeController {
             throw new ResourceNotFoundException("Exchange not found! " + id);
         }
 
-        if (exchangeDto.getExchangeName() != null){
+        if (exchangeDto.getExchangeName() != null) {
             exchangeModel.get().setExchangeName(exchangeDto.getExchangeName().trim().toUpperCase());
         }
-        if(exchangeDto.getExchangeCode() != null){
+        if (exchangeDto.getExchangeCode() != null) {
             exchangeModel.get().setExchangeCode(exchangeDto.getExchangeCode().trim().toUpperCase());
         }
-        if(exchangeDto.getExchangeCountry() != null){
+        if (exchangeDto.getExchangeCountry() != null) {
             Optional<CountryModel> countryModel = countryService.findByName(exchangeDto.getExchangeCountry());
             if (countryModel.isEmpty()) {
                 throw new ResourceNotFoundException("Exchange Country not found! " + exchangeDto.getExchangeCountry());
             }
+            if (!countryModel.get().isCountryEnabled()) {
+                throw new NotAcceptableException(
+                        "Exchange Country is not enabled! " + exchangeDto.getExchangeCountry());
+            }
+            if (countryModel.get().isCountryDeleted()) {
+                throw new NotAcceptableException("Exchange Country is deleted! " + exchangeDto.getExchangeCountry());
+            }
             exchangeModel.get().setExchangeCountry(countryModel.get());
         }
-        if(exchangeDto.getExchangeCurrency() != null){
+        if (exchangeDto.getExchangeCurrency() != null) {
             exchangeModel.get().setExchangeCurrency(exchangeDto.getExchangeCurrency().trim().toUpperCase());
         }
 
@@ -150,8 +163,8 @@ public class ExchangeController {
         return ResponseEntity.status(HttpStatus.OK).body(exchangeUpdate);
     }
 
-    @PutMapping("enabled/{id}")
-    public ResponseEntity<Object> enableExchange(@PathVariable UUID id){
+    @PutMapping("enable/{id}")
+    public ResponseEntity<Object> enableExchange(@PathVariable UUID id) {
         LOG.info("Enable exchange: " + id);
 
         Optional<ExchangeModel> exchangeModel = exchangeService.findById(id);
@@ -167,8 +180,8 @@ public class ExchangeController {
         return ResponseEntity.status(HttpStatus.OK).body(exchangeUpdate);
     }
 
-    @PutMapping("disabled/{id}")
-    public ResponseEntity<Object> disableExchange(@PathVariable UUID id){
+    @PutMapping("disable/{id}")
+    public ResponseEntity<Object> disableExchange(@PathVariable UUID id) {
         LOG.info("Disable exchange: " + id);
 
         Optional<ExchangeModel> exchangeModel = exchangeService.findById(id);
@@ -184,8 +197,8 @@ public class ExchangeController {
         return ResponseEntity.status(HttpStatus.OK).body(exchangeUpdate);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Object> deleteExchange(@PathVariable UUID id){
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Object> deleteExchange(@PathVariable UUID id) {
         LOG.info("Delete exchange: " + id);
 
         Optional<ExchangeModel> exchangeModel = exchangeService.findById(id);

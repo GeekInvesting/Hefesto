@@ -38,7 +38,7 @@ public class SectorController {
     @Autowired
     private SectorService sectorService;
 
-    private SectorModel sectorModel;
+    private SectorModel sectorModel = new SectorModel();
 
     @PostMapping
     public ResponseEntity<Object> createdSector(@Valid @RequestBody SectorModel sectorDto) throws Exception {
@@ -175,7 +175,7 @@ public class SectorController {
         return ResponseEntity.status(HttpStatus.OK).body(sectorUpdated);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<Object> deleteSector(@PathVariable UUID id) throws Exception {
         LOG.info("Delete Sector: " + id);
 
