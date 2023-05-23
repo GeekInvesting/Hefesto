@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.api.hefesto.controller.exception.handler.DataConflictException;
+import com.api.hefesto.controller.exception.handler.NotAcceptableException;
 import com.api.hefesto.controller.exception.handler.ResourceNotFoundException;
 import com.api.hefesto.dto.ExchangeDto;
 import com.api.hefesto.model.CountryModel;
@@ -28,7 +30,6 @@ import com.api.hefesto.service.CountryService;
 import com.api.hefesto.service.ExchangeService;
 
 import jakarta.validation.Valid;
-import jakarta.ws.rs.NotAcceptableException;
 
 @RestController
 @RequestMapping("exchange")
@@ -47,7 +48,7 @@ public class ExchangeController {
     public ResponseEntity<Object> createExchange(@Valid @RequestBody ExchangeDto exchangeDto) throws Exception {
         LOG.info("Create exchange: " + exchangeDto.toString());
 
-        if (exchangeDto.getExchangeName() == null) {
+        if (StringUtils.isBlank(exchangeDto.getExchangeName())) {
             throw new NotAcceptableException("Exchange Name is Required!");
         }
         if (exchangeService.existsByName(exchangeDto.getExchangeName())) {
@@ -55,7 +56,7 @@ public class ExchangeController {
         }
         exchangeModel.setExchangeName(exchangeDto.getExchangeName().trim().toUpperCase());
 
-        if (exchangeDto.getExchangeCode() == null) {
+        if (StringUtils.isBlank(exchangeDto.getExchangeCode())) {
             throw new NotAcceptableException("Exchange Code is Required!");
         }
         if (exchangeService.existsByCode(exchangeDto.getExchangeCode())) {
@@ -63,7 +64,7 @@ public class ExchangeController {
         }
         exchangeModel.setExchangeCode(exchangeDto.getExchangeCode().trim().toUpperCase());
 
-        if (exchangeDto.getExchangeCountry() == null) {
+        if (StringUtils.isBlank(exchangeDto.getExchangeCountry())) {
             throw new NotAcceptableException("Exchange Country is Required!");
         }
         Optional<CountryModel> countryModel = countryService.findByName(exchangeDto.getExchangeCountry());
@@ -131,13 +132,13 @@ public class ExchangeController {
             throw new ResourceNotFoundException("Exchange not found! " + id);
         }
 
-        if (exchangeDto.getExchangeName() != null) {
+        if (StringUtils.isNotBlank(exchangeDto.getExchangeName())) {
             exchangeModel.get().setExchangeName(exchangeDto.getExchangeName().trim().toUpperCase());
         }
-        if (exchangeDto.getExchangeCode() != null) {
+        if (StringUtils.isNotBlank(exchangeDto.getExchangeCode())) {
             exchangeModel.get().setExchangeCode(exchangeDto.getExchangeCode().trim().toUpperCase());
         }
-        if (exchangeDto.getExchangeCountry() != null) {
+        if (StringUtils.isNotBlank(exchangeDto.getExchangeCountry())) {
             Optional<CountryModel> countryModel = countryService.findByName(exchangeDto.getExchangeCountry());
             if (countryModel.isEmpty()) {
                 throw new ResourceNotFoundException("Exchange Country not found! " + exchangeDto.getExchangeCountry());
@@ -151,7 +152,7 @@ public class ExchangeController {
             }
             exchangeModel.get().setExchangeCountry(countryModel.get());
         }
-        if (exchangeDto.getExchangeCurrency() != null) {
+        if (StringUtils.isNotBlank(exchangeDto.getExchangeCurrency())) {
             exchangeModel.get().setExchangeCurrency(exchangeDto.getExchangeCurrency().trim().toUpperCase());
         }
 

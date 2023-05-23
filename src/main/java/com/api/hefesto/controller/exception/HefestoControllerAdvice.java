@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.api.hefesto.controller.exception.handler.DataConflictException;
+import com.api.hefesto.controller.exception.handler.NotAcceptableException;
 import com.api.hefesto.controller.exception.handler.ResourceNotFoundException;
-
-import jakarta.ws.rs.NotAcceptableException;
+import com.api.hefesto.controller.exception.handler.UnauthorizedException;
 
 @ControllerAdvice
 public class HefestoControllerAdvice {
@@ -41,5 +41,11 @@ public class HefestoControllerAdvice {
     public ResponseEntity<Object> handleException(Exception e) {
         String errorMessage = "Error Exception: " + e.getMessage();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<Object> handleUnauthorizedException(UnauthorizedException e){
+        String errorMessage = "Token Not is Valid!";
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorMessage);
     }
 }

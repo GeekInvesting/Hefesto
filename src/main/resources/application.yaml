@@ -21,7 +21,6 @@ spring:
     username: admin
     password: 123456
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:9999/eureka
+jwt:
+  secret: nNEnkoaV9kT3W$fpWvkAgewuwHcNXA2$2pPX@GavjNXwQ&VGiWdbquq2uzT8BNvktQz8C$bc$ei#GFTKDGc9d7Jf63%UTS$NWa$E
+  key-system: Olimpo

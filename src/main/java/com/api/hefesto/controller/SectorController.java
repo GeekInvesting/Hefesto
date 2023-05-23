@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.api.hefesto.controller.exception.handler.DataConflictException;
+import com.api.hefesto.controller.exception.handler.NotAcceptableException;
 import com.api.hefesto.controller.exception.handler.ResourceNotFoundException;
 import com.api.hefesto.model.SectorModel;
 import com.api.hefesto.service.SectorService;
 
 import jakarta.validation.Valid;
-import jakarta.ws.rs.NotAcceptableException;
 
 @RestController
 @CrossOrigin("*")
@@ -44,7 +45,7 @@ public class SectorController {
     public ResponseEntity<Object> createdSector(@Valid @RequestBody SectorModel sectorDto) throws Exception {
         LOG.info("Create sector: " + sectorDto.toString());
 
-        if (sectorDto.getSectorName() == null) {
+        if (StringUtils.isBlank(sectorDto.getSectorName())) {
             throw new NotAcceptableException("Sector Name is Required!");
         }
         if (sectorService.existsByName(sectorDto.getSectorName())) {
@@ -111,7 +112,7 @@ public class SectorController {
             throw new ResourceNotFoundException("Sector not Found!");
         }
 
-        if (sectorDto.getSectorName() == null) {
+        if (StringUtils.isBlank(sectorDto.getSectorName())) {
             throw new NotAcceptableException("Sector Name is Required!");
         }
 
