@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.api</groupId>
 	<artifactId>hefesto</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>hefesto</name>
 	<description>DProject for management company.</description>
 	<properties>
