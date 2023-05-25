@@ -24,15 +24,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        final String requestTokenHeader = request.getHeader("Authorization");
-
+        final String requestTokenHeader = request.getHeader("authorization");
+        /* 
         String jwtToken = null;
 
         if (StringUtils.isBlank(requestTokenHeader) || !StringUtils.startsWith(requestTokenHeader, "Bearer ")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            response.getWriter().write("{\"error\": \"Invalid JWT token\"}");
+            response.getWriter().write("Invalid JWT token");
             return;
         }
 
@@ -46,7 +46,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             return;
         }
 
-
+        */
 
         chain.doFilter(request, response);
     }

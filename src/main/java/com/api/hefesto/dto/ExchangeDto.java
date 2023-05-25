@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class ExchangeDto {
     
-    private UUID id;    
+    private UUID exchangeId;    
 	private String exchangeName;
 	private String exchangeCode;
 	private String exchangeCurrency;
@@ -14,9 +14,9 @@ public class ExchangeDto {
 
     public ExchangeDto(){}
 
-    public ExchangeDto(UUID id, String exchangeName, String exchangeCode, String exchangeCurrency,
+    public ExchangeDto(UUID exchangeId, String exchangeName, String exchangeCode, String exchangeCurrency,
             String exchangeCountry, boolean exchangeEnabled, boolean exchangeDeleted) {
-        this.id = id;
+        this.exchangeId = exchangeId;
         this.exchangeName = exchangeName;
         this.exchangeCode = exchangeCode;
         this.exchangeCurrency = exchangeCurrency;
@@ -26,11 +26,11 @@ public class ExchangeDto {
     }
 
     public UUID getId() {
-        return id;
+        return exchangeId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setId(UUID exchangeId) {
+        this.exchangeId = exchangeId;
     }
 
     public String getExchangeName() {
@@ -83,7 +83,7 @@ public class ExchangeDto {
 
     @Override
     public String toString() {
-        return "ExchangeDto [id=" + id + ", exchangeName=" + exchangeName + ", exchangeCode=" + exchangeCode
+        return "ExchangeDto [exchangeId=" + exchangeId + ", exchangeName=" + exchangeName + ", exchangeCode=" + exchangeCode
                 + ", exchangeCurrency=" + exchangeCurrency + ", exchangeCountry=" + exchangeCountry
                 + ", exchangeEnabled=" + exchangeEnabled + ", exchangeDeleted=" + exchangeDeleted + "]";
     }
