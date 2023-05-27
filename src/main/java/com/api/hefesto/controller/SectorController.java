@@ -119,7 +119,7 @@ public class SectorController {
         sectorModel.setSectorName(sectorDto.getSectorName().trim().toUpperCase());
         sectorModel.setId(id);
         sectorModel.setSectorEnabled(sector.get().isSectorEnabled());
-        sectorModel.setSectorDeleted(sector.get().isSectorDeleted());
+        sectorModel.setSectorDeleted(false);
 
         SectorModel sectorUpdated = sectorService.saveSector(sectorModel);
 
@@ -153,7 +153,7 @@ public class SectorController {
         return ResponseEntity.status(HttpStatus.OK).body(sectorUpdated);
     }
 
-    @PutMapping("disable/{id}")
+    @PutMapping ("disable/{id}")
     public ResponseEntity<Object> disableSector(@PathVariable UUID id) throws Exception {
         LOG.info("Disable Sector: " + id);
 
@@ -176,7 +176,7 @@ public class SectorController {
         return ResponseEntity.status(HttpStatus.OK).body(sectorUpdated);
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Object> deleteSector(@PathVariable UUID id) throws Exception {
         LOG.info("Delete Sector: " + id);
 
