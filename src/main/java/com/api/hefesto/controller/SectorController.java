@@ -198,4 +198,11 @@ public class SectorController {
 
         return ResponseEntity.status(HttpStatus.OK).body(sectorUpdated);
     }
+
+    @GetMapping("all/name")
+    public ResponseEntity<List<String>> getAllSectorName(){
+        LOG.info("Get all Sector Name!");
+
+        return ResponseEntity.status(HttpStatus.OK).body(sectorService.getAllSectorName());
+    }
 }

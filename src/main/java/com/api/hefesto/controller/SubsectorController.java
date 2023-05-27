@@ -49,9 +49,11 @@ public class SubsectorController {
         LOG.info("Create subsector: " + subsectorDto.toString());
         LOG.info(token);
 
+        /* 
         if(!jwtTokenUtil.isTokenValid(token)){
             throw new UnauthorizedException();
         }
+        */
 
         subsectorModel.setId(null);
 
