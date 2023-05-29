@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -91,6 +92,21 @@ public class SubsectorController {
 
         return ResponseEntity.created(uri).body(subsectorCreated);
     }
+
+    @GetMapping("all")
+    public ResponseEntity<Object> getAllSubsectors(@RequestHeader("authorization") String token){
+        LOG.info("Get all subsectors");
+        LOG.info(token);
+
+        /* 
+        if(!jwtTokenUtil.isTokenValid(token)){
+            throw new UnauthorizedException();
+        }
+        */
+
+        return ResponseEntity.ok(subsectorService.getAll());
+    }
+    
 
     //TODO: Implementar demais endpoints Subsector
 }
