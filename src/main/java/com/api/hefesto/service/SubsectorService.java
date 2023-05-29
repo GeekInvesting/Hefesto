@@ -35,4 +35,8 @@ public class SubsectorService {
     public List<SubsectorModel> getAll(){
         return subsectorRepository.findAll();
     }
+
+    public Optional<SubsectorModel> getSubsectorById(UUID id){
+        return subsectorRepository.findById(id);
+    }
 }
