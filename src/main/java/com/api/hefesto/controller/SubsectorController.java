@@ -149,5 +149,41 @@ public class SubsectorController {
         return ResponseEntity.ok(subsectorUpdated);
     }
 
+    @PutMapping("enable/{id}")
+    public ResponseEntity<Object> enableSubsector(@PathVariable UUID id){
+        LOG.info("Enable Subsector to ID: " + id);
+
+        Optional<SubsectorModel> subsectorSearch = subsectorService.getSubsectorById(id);
+        if(!subsectorSearch.isPresent()){
+            throw new NotAcceptableException("Subsector not found! " + id);
+        }
+        subsectorSearch.get().setSubsectorEnabled(true);
+
+        SubsectorModel subsectorEnabled = subsectorService.saveSubsector(subsectorSearch.get());
+        if (subsectorEnabled == null) {
+            throw new NotAcceptableException("Subsector not enabled!");
+        }
+
+        return ResponseEntity.ok(subsectorEnabled);
+    }
+
+    @PutMapping("disable/{id}")
+    public ResponseEntity<Object> disableSubsector(@PathVariable UUID id){
+        LOG.info("Disable Subsector to ID: " + id);
+
+        Optional<SubsectorModel> subsectorSearch = subsectorService.getSubsectorById(id);
+        if(!subsectorSearch.isPresent()){
+            throw new NotAcceptableException("Subsector not found! " + id);
+        }
+        subsectorSearch.get().setSubsectorEnabled(false);
+
+        SubsectorModel subsectorDisabled = subsectorService.saveSubsector(subsectorSearch.get());
+        if (subsectorDisabled == null) {
+            throw new NotAcceptableException("Subsector not disabled!");
+        }
+
+        return ResponseEntity.ok(subsectorDisabled);
+    }
+
     //TODO: Implementar demais endpoints Subsector
 }
