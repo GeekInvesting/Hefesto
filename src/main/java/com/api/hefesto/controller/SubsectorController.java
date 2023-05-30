@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -125,9 +126,6 @@ public class SubsectorController {
         if (subsectorSearch.isEmpty()){
             throw new NotAcceptableException("Subsector not found! " + id);
         }
-        if(subsectorSearch.equals(subsectorService.getSubsectorByName(subsectorDto.getSubsectorName()))){
-            throw new NotAcceptableException("Subsector Name already exists! " + subsectorDto.getSubsectorName());
-        }
 
         Optional<SectorModel> sectorSearch = sectorService.getSectorByName(subsectorDto.getSectorName());
         if (sectorSearch.isEmpty()){
@@ -183,6 +181,26 @@ public class SubsectorController {
         }
 
         return ResponseEntity.ok(subsectorDisabled);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Object> deleteSubsector(@PathVariable UUID id){
+        LOG.info("Delete Subsector to ID: " + id);
+
+        Optional<SubsectorModel> subsectorSearch = subsectorService.getSubsectorById(id);
+        if(!subsectorSearch.isPresent()){
+            throw new NotAcceptableException("Subsector not found! " + id);
+        }
+
+        subsectorSearch.get().setSubsectorEnabled(false);
+        subsectorSearch.get().setSubsectorDeleted(true);
+
+        SubsectorModel subsectorDeleted = subsectorService.saveSubsector(subsectorSearch.get());
+        if (subsectorDeleted == null) {
+            throw new NotAcceptableException("Subsector not deleted!");
+        }
+
+        return ResponseEntity.ok(subsectorDeleted);
     }
 
     //TODO: Implementar demais endpoints Subsector
