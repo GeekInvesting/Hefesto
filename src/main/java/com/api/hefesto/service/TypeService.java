@@ -1,5 +1,7 @@
 package com.api.hefesto.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +10,7 @@ import com.api.hefesto.repository.TypeRepository;
 
 @Service
 public class TypeService {
-    
+
     @Autowired
     private TypeRepository typeRepository;
 
@@ -16,4 +18,7 @@ public class TypeService {
         return typeRepository.save(typeModel);
     }
 
+    public List<TypeModel> getAllTypes() {
+        return typeRepository.findAll();
+    }
 }
