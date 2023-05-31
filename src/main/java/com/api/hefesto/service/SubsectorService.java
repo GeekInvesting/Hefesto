@@ -1,5 +1,6 @@
 package com.api.hefesto.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,5 +30,13 @@ public class SubsectorService {
 
     public Optional<SubsectorModel> getSubsectorByName(String subsectorName) {
         return subsectorRepository.findBySubsectorNameIgnoreCase(subsectorName);
+    }
+
+    public List<SubsectorModel> getAll(){
+        return subsectorRepository.findAll();
+    }
+
+    public Optional<SubsectorModel> getSubsectorById(UUID id){
+        return subsectorRepository.findById(id);
     }
 }
