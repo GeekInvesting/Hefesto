@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -106,5 +107,62 @@ public class TypeController {
         return ResponseEntity.ok().body(typeUpdate);
     }
 
+    @PutMapping("enable/{id}")
+    public ResponseEntity<Object> enableType(@PathVariable UUID id) {
+        LOG.info("Enable Type: " + id);
+
+        Optional<TypeModel> typeSearch = typeService.getTypeById(id);
+        if (typeSearch.isEmpty()) {
+            throw new ResourceNotFoundException("Type Not Found");
+        }
+
+        typeSearch.get().setTypeEnabled(true);
+
+        TypeModel typeUpdate = typeService.saveType(typeSearch.get());
+        if (typeUpdate == null) {
+            throw new NotAcceptableException("Error to enable type");
+        }
+
+        return ResponseEntity.ok().body(typeUpdate);
+    }
+
+    @PutMapping("disable/{id}")
+    public ResponseEntity<Object> disableType(@PathVariable UUID id) {
+        LOG.info("Disable Type: " + id);
+
+        Optional<TypeModel> typeSearch = typeService.getTypeById(id);
+        if (typeSearch.isEmpty()) {
+            throw new ResourceNotFoundException("Type Not Found");
+        }
+
+        typeSearch.get().setTypeEnabled(false);
+
+        TypeModel typeUpdate = typeService.saveType(typeSearch.get());
+        if (typeUpdate == null) {
+            throw new NotAcceptableException("Error to disable type");
+        }
+
+        return ResponseEntity.ok().body(typeUpdate);
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Object> deleteType(@PathVariable UUID id) {
+        LOG.info("Delete Type: " + id);
+
+        Optional<TypeModel> typeSearch = typeService.getTypeById(id);
+        if (typeSearch.isEmpty()) {
+            throw new ResourceNotFoundException("Type Not Found");
+        }
+
+        typeSearch.get().setTypeEnabled(false);
+        typeSearch.get().setTypeDeleted(true);
+
+        TypeModel typeUpdate = typeService.saveType(typeSearch.get());
+        if (typeUpdate == null) {
+            throw new NotAcceptableException("Error to delete type");
+        }
+
+        return ResponseEntity.ok().body(typeUpdate);
+    }
     // TODO: Implements this requests
 }
