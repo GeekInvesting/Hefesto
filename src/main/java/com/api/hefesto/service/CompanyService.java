@@ -1,6 +1,8 @@
 package com.api.hefesto.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,5 +22,9 @@ public class CompanyService {
 
     public List<CompanyModel> getAllCompany(){
         return companyRepository.findAll();
+    }
+
+    public Optional<CompanyModel> getCompanyById(UUID id){
+        return companyRepository.findById(id);
     }
 }
