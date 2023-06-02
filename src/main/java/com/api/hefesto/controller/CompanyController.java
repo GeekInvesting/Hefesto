@@ -101,7 +101,7 @@ public class CompanyController {
             throw new NotAcceptableException("Company not found");
         }
 
-        if(StringUtils.isBlank(companyDto.getCompanyName())){
+        if (StringUtils.isBlank(companyDto.getCompanyName())) {
             throw new NotAcceptableException("Company name is required");
         }
         companyModel.get().setCompanyName(
@@ -109,47 +109,47 @@ public class CompanyController {
                         ? companyModel.get().getCompanyName()
                         : companyDto.getCompanyName().toUpperCase().trim());
 
-        if (StringUtils.isNotBlank(companyModel.get().getCompanyCode())){
-        companyModel.get().setCompanyCode(
-                companyModel.get().getCompanyCode().equals(companyDto.getCompanyCode())
-                        ? companyModel.get().getCompanyCode()
-                        : companyDto.getCompanyCode().toUpperCase().trim());
+        if (StringUtils.isNotBlank(companyModel.get().getCompanyCode())) {
+            companyModel.get().setCompanyCode(
+                    companyModel.get().getCompanyCode().equals(companyDto.getCompanyCode())
+                            ? companyModel.get().getCompanyCode()
+                            : companyDto.getCompanyCode().toUpperCase().trim());
         } else {
             companyModel.get().setCompanyCode(companyDto.getCompanyCode().toUpperCase().trim());
         }
 
-        if(StringUtils.isNotBlank(companyModel.get().getCompanyLogo())){
-        companyModel.get().setCompanyLogo(
-                companyModel.get().getCompanyLogo().equals(companyDto.getCompanyLogo())
-                        ? companyModel.get().getCompanyLogo()
-                        : companyDto.getCompanyLogo().trim());
+        if (StringUtils.isNotBlank(companyModel.get().getCompanyLogo())) {
+            companyModel.get().setCompanyLogo(
+                    companyModel.get().getCompanyLogo().equals(companyDto.getCompanyLogo())
+                            ? companyModel.get().getCompanyLogo()
+                            : companyDto.getCompanyLogo().trim());
         } else {
             companyModel.get().setCompanyLogo(companyDto.getCompanyLogo().trim());
         }
 
-        if(StringUtils.isNotBlank(companyModel.get().getCompanyMainActivity())){
-        companyModel.get().setCompanyMainActivity(
-                companyModel.get().getCompanyMainActivity().equals(companyDto.getCompanyMainActivity())
-                        ? companyModel.get().getCompanyMainActivity()
-                        : companyDto.getCompanyMainActivity().trim());
+        if (StringUtils.isNotBlank(companyModel.get().getCompanyMainActivity())) {
+            companyModel.get().setCompanyMainActivity(
+                    companyModel.get().getCompanyMainActivity().equals(companyDto.getCompanyMainActivity())
+                            ? companyModel.get().getCompanyMainActivity()
+                            : companyDto.getCompanyMainActivity().trim());
         } else {
             companyModel.get().setCompanyMainActivity(companyDto.getCompanyMainActivity().trim());
         }
 
-        if(StringUtils.isNotBlank(companyModel.get().getCompanySiteRi())){
-        companyModel.get().setCompanySiteRi(
-                companyModel.get().getCompanySiteRi().equals(companyDto.getCompanySiteRi())
-                        ? companyModel.get().getCompanySiteRi()
-                        : companyDto.getCompanySiteRi().trim());
+        if (StringUtils.isNotBlank(companyModel.get().getCompanySiteRi())) {
+            companyModel.get().setCompanySiteRi(
+                    companyModel.get().getCompanySiteRi().equals(companyDto.getCompanySiteRi())
+                            ? companyModel.get().getCompanySiteRi()
+                            : companyDto.getCompanySiteRi().trim());
         } else {
             companyModel.get().setCompanySiteRi(companyDto.getCompanySiteRi().trim());
         }
 
-        if(StringUtils.isNotBlank(companyModel.get().getCompanyAbout())){
-        companyModel.get().setCompanyAbout(
-                companyModel.get().getCompanyAbout().equals(companyDto.getCompanyAbout())
-                        ? companyModel.get().getCompanyAbout()
-                        : companyDto.getCompanyAbout().trim().toUpperCase());
+        if (StringUtils.isNotBlank(companyModel.get().getCompanyAbout())) {
+            companyModel.get().setCompanyAbout(
+                    companyModel.get().getCompanyAbout().equals(companyDto.getCompanyAbout())
+                            ? companyModel.get().getCompanyAbout()
+                            : companyDto.getCompanyAbout().trim().toUpperCase());
         } else {
             companyModel.get().setCompanyAbout(companyDto.getCompanyAbout().trim().toUpperCase());
         }
@@ -163,7 +163,7 @@ public class CompanyController {
             throw new NotAcceptableException("Error to update company");
         }
 
-        //TODO: implement send msg company
+        // TODO: implement send msg company
 
         return ResponseEntity.ok(companyUpdate);
     }
@@ -187,5 +187,45 @@ public class CompanyController {
             throw new NotAcceptableException("Error to delete company");
         }
         return ResponseEntity.ok(companyDelete);
+    }
+
+    @PutMapping("enable/{id}")
+    public ResponseEntity<Object> enableCompany(@PathVariable UUID id) {
+        LOG.info("Enable Company id:" + id);
+
+        Optional<CompanyModel> companyModel = companyService.getCompanyById(id);
+
+        if (!companyModel.isPresent()) {
+            throw new NotAcceptableException("Company not found");
         }
+
+        companyModel.get().setCompanyEnabled(true);
+
+        CompanyModel companyEnable = companyService.saveCompany(companyModel.get());
+
+        if (companyEnable == null) {
+            throw new NotAcceptableException("Error to enable company");
+        }
+        return ResponseEntity.ok(companyEnable);
+    }
+
+    @PutMapping("disable/{id}")
+    public ResponseEntity<Object> disableCompany(@PathVariable UUID id) {
+        LOG.info("Disable Company id:" + id);
+
+        Optional<CompanyModel> companyModel = companyService.getCompanyById(id);
+
+        if (!companyModel.isPresent()) {
+            throw new NotAcceptableException("Company not found");
+        }
+
+        companyModel.get().setCompanyEnabled(false);
+
+        CompanyModel companyDisable = companyService.saveCompany(companyModel.get());
+
+        if (companyDisable == null) {
+            throw new NotAcceptableException("Error to disable company");
+        }
+        return ResponseEntity.ok(companyDisable);
+    }
 }
