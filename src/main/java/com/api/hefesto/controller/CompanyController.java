@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -166,4 +167,25 @@ public class CompanyController {
 
         return ResponseEntity.ok(companyUpdate);
     }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Object> deleteCompany(@PathVariable UUID id) {
+        LOG.info("Delete Company id:" + id);
+
+        Optional<CompanyModel> companyModel = companyService.getCompanyById(id);
+
+        if (!companyModel.isPresent()) {
+            throw new NotAcceptableException("Company not found");
+        }
+
+        companyModel.get().setCompanyEnabled(false);
+        companyModel.get().setCompanyDeleted(true);
+
+        CompanyModel companyDelete = companyService.saveCompany(companyModel.get());
+
+        if (companyDelete == null) {
+            throw new NotAcceptableException("Error to delete company");
+        }
+        return ResponseEntity.ok(companyDelete);
+        }
 }
