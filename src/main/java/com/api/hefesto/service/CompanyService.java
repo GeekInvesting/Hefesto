@@ -1,5 +1,7 @@
 package com.api.hefesto.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +18,7 @@ public class CompanyService {
         return companyRepository.save(companyModel);
     }
 
-    
+    public List<CompanyModel> getAllCompany(){
+        return companyRepository.findAll();
+    }
 }

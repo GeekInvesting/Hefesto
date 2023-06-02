@@ -1,6 +1,7 @@
 package com.api.hefesto.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -8,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,5 +72,18 @@ public class CompanyController {
                 .buildAndExpand(companyCreate.getId()).toUri();
 
         return ResponseEntity.created(location).body(companyCreate);
+    }
+
+    @GetMapping("all")
+    public ResponseEntity<Object> getAllCompany() {
+        LOG.info("Get All Company");
+
+        List<CompanyModel> companyList = companyService.getAllCompany();
+
+        if (companyList == null) {
+            throw new NotAcceptableException("Error to get all company");
+        }
+
+        return ResponseEntity.ok(companyList);
     }
 }
