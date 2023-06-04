@@ -164,5 +164,12 @@ public class TypeController {
 
         return ResponseEntity.ok().body(typeUpdate);
     }
+
+    @GetMapping("all/code")
+    public ResponseEntity<Object> listTypeCode(){
+        LOG.info("Get all types code");
+
+        return ResponseEntity.ok(typeService.listTypeCode());
+    }
     // TODO: Implements this requests
 }

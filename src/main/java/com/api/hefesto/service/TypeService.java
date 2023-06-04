@@ -27,4 +27,12 @@ public class TypeService {
     public Optional<TypeModel> getTypeById(UUID id){
         return typeRepository.findById(id);
     }
+
+    public Optional<TypeModel> getTypeByCode(String typeCpde){
+        return typeRepository.findByTypeCodeIgnoreCase(typeCpde);
+    }
+
+    public List<String> listTypeCode(){
+        return typeRepository.listAllTypeCode();
+    }
 }

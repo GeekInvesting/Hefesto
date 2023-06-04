@@ -226,6 +226,17 @@ public class CompanyController {
         if (companyDisable == null) {
             throw new NotAcceptableException("Error to disable company");
         }
+
+        //TODO: implement mgs to company
         return ResponseEntity.ok(companyDisable);
+    }
+
+    @GetMapping("all/name")
+    public ResponseEntity<Object> listCompanyName() {
+        LOG.info("Get all Company Name");
+
+        return ResponseEntity.ok().body(
+            companyService.listCompanyName()
+        );
     }
 }

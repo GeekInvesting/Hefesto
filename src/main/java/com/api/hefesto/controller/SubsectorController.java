@@ -203,5 +203,19 @@ public class SubsectorController {
         return ResponseEntity.ok(subsectorDeleted);
     }
 
+    @GetMapping("all/name")
+    public ResponseEntity<Object> getAllSubsectorsName(@RequestHeader("authorization") String token){
+        LOG.info("Get all subsectors name");
+        LOG.info(token);
+
+        /* 
+        if(!jwtTokenUtil.isTokenValid(token)){
+            throw new UnauthorizedException();
+        }
+        */
+
+        return ResponseEntity.ok(subsectorService.listAllSubsectorName());
+    }
+
     //TODO: Implementar demais endpoints Subsector
 }

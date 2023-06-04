@@ -27,4 +27,12 @@ public class CompanyService {
     public Optional<CompanyModel> getCompanyById(UUID id){
         return companyRepository.findById(id);
     }
+
+    public Optional<CompanyModel> getCompanyByName(String companyName){
+        return companyRepository.findByCompanyNameIgnoreCase(companyName);
+    }
+
+    public List<String> listCompanyName(){
+        return companyRepository.findAllCompanyName();
+    }
 }
