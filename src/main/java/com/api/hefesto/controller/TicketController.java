@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -171,7 +172,8 @@ public class TicketController {
                         ? typeSearch.get()
                         : ticketSearch.get().getTicketType());
 
-        Optional<SubsectorModel> subsectorSearch = subsectorService.getSubsectorByName(ticketDto.getTicketSubsectorName());
+        Optional<SubsectorModel> subsectorSearch = subsectorService
+                .getSubsectorByName(ticketDto.getTicketSubsectorName());
         ticketSearch.get().setTicketSubsector(
                 subsectorSearch.isPresent()
                         ? subsectorSearch.get()
@@ -182,8 +184,27 @@ public class TicketController {
 
         TicketModel ticketUpdate = ticketService.saveTicket(ticketSearch.get());
 
-        //TODO: Implement msg ticket to 
+        // TODO: Implement msg ticket to
 
         return ResponseEntity.ok(ticketUpdate);
     }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Object> deleteTicket(@PathVariable UUID id) {
+        LOG.info("Delete Ticket: " + id);
+
+        Optional<TicketModel> ticketSearch = ticketService.getTicketById(id);
+
+        if (!ticketSearch.isPresent()) {
+            throw new NotAcceptableException("Ticket not found");
+        }
+
+        ticketSearch.get().setTicketEnabled(false);
+        ticketSearch.get().setTicketDeleted(true);
+
+        TicketModel ticketDelete = ticketService.saveTicket(ticketSearch.get());
+
+        return ResponseEntity.ok(ticketDelete);
+    }
+
 }
