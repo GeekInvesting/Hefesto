@@ -47,4 +47,8 @@ public class ExchangeService {
     public Optional<ExchangeModel> findById(UUID exchangeId){
         return exchangeRepository.findById(exchangeId);
     }
+
+    public List<String> listAllExchangeCode(){
+        return exchangeRepository.listAllExchangeCode();
+    }
 }

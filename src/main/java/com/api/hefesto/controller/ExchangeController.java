@@ -215,4 +215,10 @@ public class ExchangeController {
 
         return ResponseEntity.status(HttpStatus.OK).body(exchangeUpdate);
     }
+
+    @GetMapping("all/code")
+    public ResponseEntity<Object> getAllExchangeCode(){
+        LOG.info("Get all exchange code");
+        return ResponseEntity.status(HttpStatus.OK).body(exchangeService.listAllExchangeCode());
+    }
 }
