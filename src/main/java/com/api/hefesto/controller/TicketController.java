@@ -207,4 +207,40 @@ public class TicketController {
         return ResponseEntity.ok(ticketDelete);
     }
 
+    @PutMapping("enable/{id}")
+    public ResponseEntity<Object> enableTicket(@PathVariable UUID id) {
+        LOG.info("Enable Ticket: " + id);
+
+        Optional<TicketModel> ticketSearch = ticketService.getTicketById(id);
+
+        if (!ticketSearch.isPresent()) {
+            throw new NotAcceptableException("Ticket not found");
+        }
+
+        ticketSearch.get().setTicketEnabled(true);
+        ticketSearch.get().setTicketDeleted(false);
+
+        TicketModel ticketEnable = ticketService.saveTicket(ticketSearch.get());
+
+        return ResponseEntity.ok(ticketEnable);
+    }
+
+    @PutMapping("disable/{id}")
+    public ResponseEntity<Object> disableTicket(@PathVariable UUID id) {
+        LOG.info("Disable Ticket: " + id);
+
+        Optional<TicketModel> ticketSearch = ticketService.getTicketById(id);
+
+        if (!ticketSearch.isPresent()) {
+            throw new NotAcceptableException("Ticket not found");
+        }
+
+        ticketSearch.get().setTicketEnabled(false);
+        ticketSearch.get().setTicketDeleted(false);
+
+        TicketModel ticketDisable = ticketService.saveTicket(ticketSearch.get());
+
+        return ResponseEntity.ok(ticketDisable);
+    }
+
 }
