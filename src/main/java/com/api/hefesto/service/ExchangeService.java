@@ -44,7 +44,11 @@ public class ExchangeService {
         return exchangeRepository.findByExchangeDeleted(false);
     }
 
-    public Optional<ExchangeModel> findById(UUID id){
-        return exchangeRepository.findById(id);
+    public Optional<ExchangeModel> findById(UUID exchangeId){
+        return exchangeRepository.findById(exchangeId);
+    }
+
+    public List<String> listAllExchangeCode(){
+        return exchangeRepository.listAllExchangeCode();
     }
 }

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +31,9 @@ import com.api.hefesto.service.CountryService;
 import com.api.hefesto.service.ExchangeService;
 
 import jakarta.validation.Valid;
-
+@CrossOrigin("*")
 @RestController
-@RequestMapping("exchange")
+@RequestMapping("hefesto/exchange")
 public class ExchangeController {
     private static final Logger LOG = LogManager.getLogger(ExchangeController.class);
 
@@ -92,7 +93,7 @@ public class ExchangeController {
         }
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("{/id}")
+                .path("{/exchangeId}")
                 .buildAndExpand(exchangeCreated.getId())
                 .toUri();
 
@@ -111,25 +112,25 @@ public class ExchangeController {
         return ResponseEntity.status(HttpStatus.OK).body(exchangeService.findAllExchangeNotDeleted());
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Object> getExchangeById(@PathVariable UUID id) {
-        LOG.info("Get exchange by id: " + id);
-        Optional<ExchangeModel> exchangeModel = exchangeService.findById(id);
+    @GetMapping("{exchangeId}")
+    public ResponseEntity<Object> getExchangeById(@PathVariable UUID exchangeId) {
+        LOG.info("Get exchange by exchangeId: " + exchangeId);
+        Optional<ExchangeModel> exchangeModel = exchangeService.findById(exchangeId);
         if (exchangeModel.isEmpty()) {
-            throw new ResourceNotFoundException("Exchange not found! " + id);
+            throw new ResourceNotFoundException("Exchange not found! " + exchangeId);
         }
         return ResponseEntity.status(HttpStatus.OK).body(exchangeModel.get());
     }
 
-    @PutMapping("{id}")
+    @PutMapping("{exchangeId}")
     public ResponseEntity<Object> updateExchange(
             @Valid @RequestBody ExchangeDto exchangeDto,
-            @PathVariable UUID id) {
+            @PathVariable UUID exchangeId) {
         LOG.info("Exchange Updating: " + exchangeDto.toString());
 
-        Optional<ExchangeModel> exchangeModel = exchangeService.findById(id);
+        Optional<ExchangeModel> exchangeModel = exchangeService.findById(exchangeId);
         if (exchangeModel.isEmpty()) {
-            throw new ResourceNotFoundException("Exchange not found! " + id);
+            throw new ResourceNotFoundException("Exchange not found! " + exchangeId);
         }
 
         if (StringUtils.isNotBlank(exchangeDto.getExchangeName())) {
@@ -164,13 +165,13 @@ public class ExchangeController {
         return ResponseEntity.status(HttpStatus.OK).body(exchangeUpdate);
     }
 
-    @PutMapping("enable/{id}")
-    public ResponseEntity<Object> enableExchange(@PathVariable UUID id) {
-        LOG.info("Enable exchange: " + id);
+    @PutMapping("enable/{exchangeId}")
+    public ResponseEntity<Object> enableExchange(@PathVariable UUID exchangeId) {
+        LOG.info("Enable exchange: " + exchangeId);
 
-        Optional<ExchangeModel> exchangeModel = exchangeService.findById(id);
+        Optional<ExchangeModel> exchangeModel = exchangeService.findById(exchangeId);
         if (exchangeModel.isEmpty()) {
-            throw new ResourceNotFoundException("Exchange not found! " + id);
+            throw new ResourceNotFoundException("Exchange not found! " + exchangeId);
         }
 
         exchangeModel.get().setExchangeEnabled(true);
@@ -181,13 +182,13 @@ public class ExchangeController {
         return ResponseEntity.status(HttpStatus.OK).body(exchangeUpdate);
     }
 
-    @PutMapping("disable/{id}")
-    public ResponseEntity<Object> disableExchange(@PathVariable UUID id) {
-        LOG.info("Disable exchange: " + id);
+    @PutMapping("disable/{exchangeId}")
+    public ResponseEntity<Object> disableExchange(@PathVariable UUID exchangeId) {
+        LOG.info("Disable exchange: " + exchangeId);
 
-        Optional<ExchangeModel> exchangeModel = exchangeService.findById(id);
+        Optional<ExchangeModel> exchangeModel = exchangeService.findById(exchangeId);
         if (exchangeModel.isEmpty()) {
-            throw new ResourceNotFoundException("Exchange not found! " + id);
+            throw new ResourceNotFoundException("Exchange not found! " + exchangeId);
         }
 
         exchangeModel.get().setExchangeEnabled(false);
@@ -198,13 +199,13 @@ public class ExchangeController {
         return ResponseEntity.status(HttpStatus.OK).body(exchangeUpdate);
     }
 
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<Object> deleteExchange(@PathVariable UUID id) {
-        LOG.info("Delete exchange: " + id);
+    @DeleteMapping("delete/{exchangeId}")
+    public ResponseEntity<Object> deleteExchange(@PathVariable UUID exchangeId) {
+        LOG.info("Delete exchange: " + exchangeId);
 
-        Optional<ExchangeModel> exchangeModel = exchangeService.findById(id);
+        Optional<ExchangeModel> exchangeModel = exchangeService.findById(exchangeId);
         if (exchangeModel.isEmpty()) {
-            throw new ResourceNotFoundException("Exchange not found! " + id);
+            throw new ResourceNotFoundException("Exchange not found! " + exchangeId);
         }
 
         exchangeModel.get().setExchangeEnabled(false);
@@ -213,5 +214,11 @@ public class ExchangeController {
         ExchangeModel exchangeUpdate = exchangeService.saveExchange(exchangeModel.get());
 
         return ResponseEntity.status(HttpStatus.OK).body(exchangeUpdate);
+    }
+
+    @GetMapping("all/code")
+    public ResponseEntity<Object> getAllExchangeCode(){
+        LOG.info("Get all exchange code");
+        return ResponseEntity.status(HttpStatus.OK).body(exchangeService.listAllExchangeCode());
     }
 }

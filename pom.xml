@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.api</groupId>
 	<artifactId>hefesto</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.4-SNAPSHOT</version>
 	<name>hefesto</name>
 	<description>DProject for management company.</description>
 	<properties>
@@ -22,6 +22,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+			<version>3.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -42,6 +43,7 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>4.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -84,12 +86,6 @@
 		<dependency>
 			<groupId>org.springframework.amqp</groupId>
 			<artifactId>spring-rabbit</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.lib</groupId>
-			<artifactId>apolo-lib</artifactId>
-			<version>1.0</version>
 		</dependency>
 
 		<dependency>

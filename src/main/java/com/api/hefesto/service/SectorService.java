@@ -39,4 +39,8 @@ public class SectorService {
     public Optional<SectorModel> getSectorById(UUID id){
         return sectorRepository.findById(id);
     }
+
+    public List<String> getAllSectorName(){
+        return sectorRepository.findAllSectorName();
+    }
 }

@@ -18,7 +18,7 @@ public class ExchangeModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private UUID exchangeId;
 
     @Column(nullable = false, length = 50)
     private String exchangeName;
@@ -41,9 +41,9 @@ public class ExchangeModel implements Serializable {
     public ExchangeModel() {
     }
 
-    public ExchangeModel(UUID id, String exchangeName, String exchangeCode, String exchangeCurrency,
+    public ExchangeModel(UUID exchangeId, String exchangeName, String exchangeCode, String exchangeCurrency,
             CountryModel exchangeCountry, boolean exchangeEnabled, boolean exchangeDeleted) {
-        this.id = id;
+        this.exchangeId = exchangeId;
         this.exchangeName = exchangeName;
         this.exchangeCode = exchangeCode;
         this.exchangeCurrency = exchangeCurrency;
@@ -53,11 +53,11 @@ public class ExchangeModel implements Serializable {
     }
 
     public UUID getId() {
-        return id;
+        return exchangeId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setId(UUID exchangeId) {
+        this.exchangeId = exchangeId;
     }
 
     public String getExchangeName() {
@@ -112,7 +112,7 @@ public class ExchangeModel implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((exchangeId == null) ? 0 : exchangeId.hashCode());
         result = prime * result + ((exchangeName == null) ? 0 : exchangeName.hashCode());
         result = prime * result + ((exchangeCode == null) ? 0 : exchangeCode.hashCode());
         result = prime * result + ((exchangeCurrency == null) ? 0 : exchangeCurrency.hashCode());
@@ -131,10 +131,10 @@ public class ExchangeModel implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         ExchangeModel other = (ExchangeModel) obj;
-        if (id == null) {
-            if (other.id != null)
+        if (exchangeId == null) {
+            if (other.exchangeId != null)
                 return false;
-        } else if (!id.equals(other.id))
+        } else if (!exchangeId.equals(other.exchangeId))
             return false;
         if (exchangeName == null) {
             if (other.exchangeName != null)
@@ -165,7 +165,7 @@ public class ExchangeModel implements Serializable {
 
     @Override
     public String toString() {
-        return "ExchangeModel [id=" + id + ", exchangeName=" + exchangeName + ", exchangeCode=" + exchangeCode
+        return "ExchangeModel [exchangeId=" + exchangeId + ", exchangeName=" + exchangeName + ", exchangeCode=" + exchangeCode
                 + ", exchangeCurrency=" + exchangeCurrency + ", exchangeCountry=" + exchangeCountry
                 + ", exchangeEnabled=" + exchangeEnabled + ", exchangeDeleted=" + exchangeDeleted + "]";
     }

@@ -16,7 +16,7 @@ public class SubsectorModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private UUID subsectorId;
     private String subsectorName;
     private boolean subsectorEnabled;
     private boolean subsectorDeleted;
@@ -25,9 +25,9 @@ public class SubsectorModel implements Serializable {
     public SubsectorModel() {
     }
 
-    public SubsectorModel(UUID id, String subsectorName, boolean subsectorEnabled, boolean subsectorDeleted,
+    public SubsectorModel(UUID subsectorId, String subsectorName, boolean subsectorEnabled, boolean subsectorDeleted,
             SectorModel sectorModel) {
-        this.id = id;
+        this.subsectorId = subsectorId;
         this.subsectorName = subsectorName;
         this.subsectorEnabled = subsectorEnabled;
         this.subsectorDeleted = subsectorDeleted;
@@ -35,11 +35,11 @@ public class SubsectorModel implements Serializable {
     }
 
     public UUID getId() {
-        return id;
+        return subsectorId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setId(UUID subsectorId) {
+        this.subsectorId = subsectorId;
     }
 
     public String getSubsectorName() {
@@ -77,7 +77,7 @@ public class SubsectorModel implements Serializable {
     @Override
     public String toString() {
         return "SubsectorModel{" +
-                "id=" + id +
+                "subsectorId=" + subsectorId +
                 ", subsectorName='" + subsectorName + '\'' +
                 ", subsectorEnabled=" + subsectorEnabled +
                 ", subsectorDeleted=" + subsectorDeleted +
@@ -98,7 +98,7 @@ public class SubsectorModel implements Serializable {
             return false;
         if (subsectorDeleted != that.subsectorDeleted)
             return false;
-        if (id != null ? !id.equals(that.id) : that.id != null)
+        if (subsectorId != null ? !subsectorId.equals(that.subsectorId) : that.subsectorId != null)
             return false;
         if (subsectorName != null ? !subsectorName.equals(that.subsectorName) : that.subsectorName != null)
             return false;
@@ -107,7 +107,7 @@ public class SubsectorModel implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = subsectorId != null ? subsectorId.hashCode() : 0;
         result = 31 * result + (subsectorName != null ? subsectorName.hashCode() : 0);
         result = 31 * result + (subsectorEnabled ? 1 : 0);
         result = 31 * result + (subsectorDeleted ? 1 : 0);

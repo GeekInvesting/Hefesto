@@ -17,7 +17,7 @@ public class SectorModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private UUID sectorId;
 
     @Column(nullable = false)
     private String sectorName;
@@ -31,19 +31,19 @@ public class SectorModel implements Serializable {
     public SectorModel() {
     }
 
-    public SectorModel(UUID id, String sectorName, boolean sectorEnabled, boolean sectorDeleted) {
-        this.id = id;
+    public SectorModel(UUID sectorId, String sectorName, boolean sectorEnabled, boolean sectorDeleted) {
+        this.sectorId = sectorId;
         this.sectorName = sectorName;
         this.sectorEnabled = sectorEnabled;
         this.sectorDeleted = sectorDeleted;
     }
 
     public UUID getId() {
-        return id;
+        return sectorId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setId(UUID sectorId) {
+        this.sectorId = sectorId;
     }
 
     public String getSectorName() {
@@ -72,7 +72,7 @@ public class SectorModel implements Serializable {
 
     @Override
     public String toString() {
-        return "SectorModel [id=" + id + ", sectorName=" + sectorName + ", sectorEnabled=" + sectorEnabled
+        return "SectorModel [sectorId=" + sectorId + ", sectorName=" + sectorName + ", sectorEnabled=" + sectorEnabled
                 + ", sectorDeleted=" + sectorDeleted + "]";
     }
 
@@ -80,7 +80,7 @@ public class SectorModel implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((sectorId == null) ? 0 : sectorId.hashCode());
         result = prime * result + ((sectorName == null) ? 0 : sectorName.hashCode());
         result = prime * result + (sectorEnabled ? 1231 : 1237);
         result = prime * result + (sectorDeleted ? 1231 : 1237);
@@ -96,10 +96,10 @@ public class SectorModel implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         SectorModel other = (SectorModel) obj;
-        if (id == null) {
-            if (other.id != null)
+        if (sectorId == null) {
+            if (other.sectorId != null)
                 return false;
-        } else if (!id.equals(other.id))
+        } else if (!sectorId.equals(other.sectorId))
             return false;
         if (sectorName == null) {
             if (other.sectorName != null)
