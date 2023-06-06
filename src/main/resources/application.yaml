@@ -27,3 +27,8 @@ jwt:
 
 cors:
   origin: "*"
+
+rabbitmq:
+  queue:
+    country:
+      hefesto: CountryToHefesto

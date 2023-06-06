@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 
 import com.api.hefesto.model.CountryModel;
 import com.api.hefesto.service.CountryService;
-import com.lib.mq.CountryMq;
-import com.lib.queue.CountryQueue;
 
 @Component
 public class CountryConsumer {
@@ -23,8 +21,8 @@ public class CountryConsumer {
 
     private CountryModel country = new CountryModel();
 
-    @RabbitListener(queues = CountryQueue.QUEUE_COUNTRY_HEFESTO)
-    public void CountryListen(@Payload CountryMq countryMq){
+    @RabbitListener(queues = "${rabbitmq.queue.country.hefesto}")
+    public void CountryListen(@Payload CountryModel countryMq){
         LOG.info("Country Save of Listener: " + countryMq.toString());
 
         BeanUtils.copyProperties(countryMq, country);
