@@ -17,6 +17,9 @@ Versão com a implementação de serviço para receber e processar mensagens com
 Versão com a implementação de serviço para Gerenciar o cadastro de Exchange e Setores para as Companhias.
 
 ### Version 0.0.4-SNAPSHOT
+Versão com a implementação de serviço para Gerenciar o cadastro de Companhias e Tickets.
+
+### Version 0.0.5-SNAPSHOT
 
 
 ## Suporte
