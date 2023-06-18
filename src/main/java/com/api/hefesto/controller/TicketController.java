@@ -7,7 +7,9 @@ import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.api.hefesto.controller.exception.handler.NotAcceptableException;
 import com.api.hefesto.dto.TicketDto;
+import com.api.hefesto.dto.TicketToZeus;
 import com.api.hefesto.model.CompanyModel;
 import com.api.hefesto.model.ExchangeModel;
 import com.api.hefesto.model.SubsectorModel;
@@ -29,6 +32,7 @@ import com.api.hefesto.model.TicketModel;
 import com.api.hefesto.model.TypeModel;
 import com.api.hefesto.service.CompanyService;
 import com.api.hefesto.service.ExchangeService;
+import com.api.hefesto.service.RabbitMqService;
 import com.api.hefesto.service.SubsectorService;
 import com.api.hefesto.service.TicketService;
 import com.api.hefesto.service.TypeService;
@@ -53,6 +57,12 @@ public class TicketController {
 
     @Autowired
     private TypeService typeService;
+
+    @Autowired
+    private RabbitMqService mqService;
+
+    @Value("${rabbitmq.queue.ticket.zeus}")
+    private String queueToZeus;
 
     @PostMapping
     public ResponseEntity<Object> createTicket(@RequestBody TicketDto ticketDto) {
@@ -122,7 +132,14 @@ public class TicketController {
                 .buildAndExpand(ticketCreate.getId())
                 .toUri();
 
-        // TODO: Implement msg ticketToZeus
+        TicketToZeus ticketToZeus = new TicketToZeus();
+        BeanUtils.copyProperties(ticketCreate, ticketToZeus);
+        ticketToZeus.setTicketExchangeCode(ticketCreate.getTicketExchange().getExchangeCode());
+        ticketToZeus.setTicketCompanyName(ticketCreate.getTicketCompany().getCompanyName());
+        ticketToZeus.setTicketSubsectorName(ticketCreate.getTicketSubsector().getSubsectorName());
+        ticketToZeus.setTicketTypeCode(ticketCreate.getTicketType().getTypeCode());
+        ticketToZeus.setTicketSectorName(ticketCreate.getTicketSubsector().getSectorModel().getSectorName());
+        mqService.sendMessage(queueToZeus, ticketToZeus);
 
         return ResponseEntity.created(uri).body(ticketCreate);
     }
@@ -184,7 +201,14 @@ public class TicketController {
 
         TicketModel ticketUpdate = ticketService.saveTicket(ticketSearch.get());
 
-        // TODO: Implement msg ticket to
+        TicketToZeus ticketToZeus = new TicketToZeus();
+        BeanUtils.copyProperties(ticketUpdate, ticketToZeus);
+        ticketToZeus.setTicketExchangeCode(ticketUpdate.getTicketExchange().getExchangeCode());
+        ticketToZeus.setTicketCompanyName(ticketUpdate.getTicketCompany().getCompanyName());
+        ticketToZeus.setTicketSubsectorName(ticketUpdate.getTicketSubsector().getSubsectorName());
+        ticketToZeus.setTicketTypeCode(ticketUpdate.getTicketType().getTypeCode());
+        ticketToZeus.setTicketSectorName(ticketUpdate.getTicketSubsector().getSectorModel().getSectorName());
+        mqService.sendMessage(queueToZeus, ticketToZeus);
 
         return ResponseEntity.ok(ticketUpdate);
     }
@@ -204,6 +228,15 @@ public class TicketController {
 
         TicketModel ticketDelete = ticketService.saveTicket(ticketSearch.get());
 
+        TicketToZeus ticketToZeus = new TicketToZeus();
+        BeanUtils.copyProperties(ticketDelete, ticketToZeus);
+        ticketToZeus.setTicketExchangeCode(ticketDelete.getTicketExchange().getExchangeCode());
+        ticketToZeus.setTicketCompanyName(ticketDelete.getTicketCompany().getCompanyName());
+        ticketToZeus.setTicketSubsectorName(ticketDelete.getTicketSubsector().getSubsectorName());
+        ticketToZeus.setTicketTypeCode(ticketDelete.getTicketType().getTypeCode());
+        ticketToZeus.setTicketSectorName(ticketDelete.getTicketSubsector().getSectorModel().getSectorName());
+        mqService.sendMessage(queueToZeus, ticketToZeus);
+
         return ResponseEntity.ok(ticketDelete);
     }
 
@@ -222,6 +255,15 @@ public class TicketController {
 
         TicketModel ticketEnable = ticketService.saveTicket(ticketSearch.get());
 
+        TicketToZeus ticketToZeus = new TicketToZeus();
+        BeanUtils.copyProperties(ticketEnable, ticketToZeus);
+        ticketToZeus.setTicketExchangeCode(ticketEnable.getTicketExchange().getExchangeCode());
+        ticketToZeus.setTicketCompanyName(ticketEnable.getTicketCompany().getCompanyName());
+        ticketToZeus.setTicketSubsectorName(ticketEnable.getTicketSubsector().getSubsectorName());
+        ticketToZeus.setTicketTypeCode(ticketEnable.getTicketType().getTypeCode());
+        ticketToZeus.setTicketSectorName(ticketEnable.getTicketSubsector().getSectorModel().getSectorName());
+        mqService.sendMessage(queueToZeus, ticketToZeus);
+
         return ResponseEntity.ok(ticketEnable);
     }
 
@@ -239,6 +281,16 @@ public class TicketController {
         ticketSearch.get().setTicketDeleted(false);
 
         TicketModel ticketDisable = ticketService.saveTicket(ticketSearch.get());
+
+        TicketToZeus ticketToZeus = new TicketToZeus();
+
+        BeanUtils.copyProperties(ticketDisable, ticketToZeus);
+        ticketToZeus.setTicketExchangeCode(ticketDisable.getTicketExchange().getExchangeCode());
+        ticketToZeus.setTicketCompanyName(ticketDisable.getTicketCompany().getCompanyName());
+        ticketToZeus.setTicketSubsectorName(ticketDisable.getTicketSubsector().getSubsectorName());
+        ticketToZeus.setTicketTypeCode(ticketDisable.getTicketType().getTypeCode());
+        ticketToZeus.setTicketSectorName(ticketDisable.getTicketSubsector().getSectorModel().getSectorName());
+        mqService.sendMessage(queueToZeus, ticketToZeus);
 
         return ResponseEntity.ok(ticketDisable);
     }

@@ -32,3 +32,5 @@ rabbitmq:
   queue:
     country:
       hefesto: CountryToHefesto
+    ticket:
+      zeus: TicketToZeus
