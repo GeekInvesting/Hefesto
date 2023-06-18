@@ -20,7 +20,7 @@ Versão com a implementação de serviço para Gerenciar o cadastro de Exchange 
 Versão com a implementação de serviço para Gerenciar o cadastro de Companhias e Tickets.
 
 ### Version 0.0.5-SNAPSHOT
-
+Version with the implementation of service to create the queue and send messages to the RabbitMQ.
 
 ## Suporte
 Para suporte, mande um email para hedermilani@gmail.com.
