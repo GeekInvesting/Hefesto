@@ -1,6 +1,7 @@
 package com.api.hefesto.controller;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.api.hefesto.controller.exception.handler.NotAcceptableException;
+import com.api.hefesto.dto.ListCodeDto;
 import com.api.hefesto.dto.TicketDto;
 import com.api.hefesto.dto.TicketToZeus;
 import com.api.hefesto.model.CompanyModel;
@@ -293,6 +295,16 @@ public class TicketController {
         mqService.sendMessage(queueToZeus, ticketToZeus);
 
         return ResponseEntity.ok(ticketDisable);
+    }
+
+    @GetMapping("code/all")
+    public ResponseEntity<Object> getAllTicketByCode() {
+        LOG.info("Get All Ticket By Code");
+
+        List<ListCodeDto> ticketList = ticketService.getAllTicketCode();
+        LOG.info("Ticket List: " + ticketList.toString());
+
+        return ResponseEntity.ok(ticketList);
     }
 
 }

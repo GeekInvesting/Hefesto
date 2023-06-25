@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.api.hefesto.dto.ListCodeDto;
 import com.api.hefesto.model.TicketModel;
 import com.api.hefesto.repository.TicketRepository;
 
@@ -26,5 +27,9 @@ public class TicketService {
 
     public Optional<TicketModel> getTicketById(UUID id) {
         return ticketRepository.findById(id);
+    }
+
+    public List<ListCodeDto> getAllTicketCode() {
+        return ticketRepository.findAllTicketCode();
     }
 }
