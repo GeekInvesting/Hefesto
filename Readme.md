@@ -22,6 +22,10 @@ Versão com a implementação de serviço para Gerenciar o cadastro de Companhia
 ### Version 0.0.5-SNAPSHOT
 Version with the implementation of service to create the queue and send messages to the RabbitMQ.
 
+### Version 0.0.6-SNAPSHOT
+Version with the service for list ticket for yield and for wallet.
+Fixing the problems and bugs.
+
 ## Suporte
 Para suporte, mande um email para hedermilani@gmail.com.
 
