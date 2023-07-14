@@ -4,10 +4,12 @@ import java.net.URI;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.api.hefesto.service.RabbitMqService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +37,12 @@ public class TypeController {
 
     @Autowired
     private TypeService typeService;
+
+    @Autowired
+    private RabbitMqService mqService;
+
+    @Value("${rabbitmq.queue.type.zeus}")
+    private String queueTypeZeus;
 
     @PostMapping
     public ResponseEntity<Object> createType(@RequestBody TypeModel typeDto) {
@@ -65,6 +73,8 @@ public class TypeController {
                 .path("/{id}")
                 .buildAndExpand(typeCreate.getId())
                 .toUri();
+
+        mqService.sendMessage(queueTypeZeus, typeCreate);
 
         return ResponseEntity.created(uri).body(typeCreate);
     }
@@ -104,6 +114,8 @@ public class TypeController {
             throw new NotAcceptableException("Error to update type");
         }
 
+        mqService.sendMessage(queueTypeZeus, typeUpdate);
+
         return ResponseEntity.ok().body(typeUpdate);
     }
 
@@ -122,6 +134,8 @@ public class TypeController {
         if (typeUpdate == null) {
             throw new NotAcceptableException("Error to enable type");
         }
+
+        mqService.sendMessage(queueTypeZeus, typeUpdate);
 
         return ResponseEntity.ok().body(typeUpdate);
     }
@@ -142,6 +156,8 @@ public class TypeController {
             throw new NotAcceptableException("Error to disable type");
         }
 
+        mqService.sendMessage(queueTypeZeus, typeUpdate);
+
         return ResponseEntity.ok().body(typeUpdate);
     }
 
@@ -161,6 +177,8 @@ public class TypeController {
         if (typeUpdate == null) {
             throw new NotAcceptableException("Error to delete type");
         }
+
+        mqService.sendMessage(queueTypeZeus, typeUpdate);
 
         return ResponseEntity.ok().body(typeUpdate);
     }

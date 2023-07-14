@@ -134,6 +134,7 @@ public class TicketController {
                 .buildAndExpand(ticketCreate.getId())
                 .toUri();
 
+        //TODO: Alterar para enviar apenas o ID Type
         TicketToZeus ticketToZeus = new TicketToZeus();
         BeanUtils.copyProperties(ticketCreate, ticketToZeus);
         ticketToZeus.setTicketExchangeCode(ticketCreate.getTicketExchange().getExchangeCode());
