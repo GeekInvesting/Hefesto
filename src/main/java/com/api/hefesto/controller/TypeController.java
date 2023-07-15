@@ -189,5 +189,11 @@ public class TypeController {
 
         return ResponseEntity.ok(typeService.listTypeCode());
     }
-    // TODO: Implements this requests
+
+    @GetMapping("code/autocomplete")
+    public ResponseEntity<Object> listTypeCodeAutocomplete(){
+        LOG.info("Get all types code autocomplete");
+
+        return ResponseEntity.ok(typeService.listTypeAutocomplete());
+    }
 }
