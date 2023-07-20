@@ -308,4 +308,15 @@ public class TicketController {
         return ResponseEntity.ok(ticketList);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Object> getTicketById(@PathVariable UUID id) {
+        LOG.info("Get Ticket By Id: " + id);
+
+        Optional<TicketModel> ticketSearch = ticketService.getTicketById(id);
+
+        if (ticketSearch.isEmpty()) {
+            throw new NotAcceptableException("Ticket not found");
+        }
+        return ResponseEntity.ok(ticketSearch.get());
+    }
 }
