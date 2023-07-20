@@ -34,3 +34,5 @@ rabbitmq:
       hefesto: CountryToHefesto
     ticket:
       zeus: TicketToZeus
+    type:
+      zeus: TypeToZeus

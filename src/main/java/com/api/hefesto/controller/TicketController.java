@@ -134,6 +134,7 @@ public class TicketController {
                 .buildAndExpand(ticketCreate.getId())
                 .toUri();
 
+        //TODO: Alterar para enviar apenas o ID Type
         TicketToZeus ticketToZeus = new TicketToZeus();
         BeanUtils.copyProperties(ticketCreate, ticketToZeus);
         ticketToZeus.setTicketExchangeCode(ticketCreate.getTicketExchange().getExchangeCode());
@@ -307,4 +308,15 @@ public class TicketController {
         return ResponseEntity.ok(ticketList);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Object> getTicketById(@PathVariable UUID id) {
+        LOG.info("Get Ticket By Id: " + id);
+
+        Optional<TicketModel> ticketSearch = ticketService.getTicketById(id);
+
+        if (ticketSearch.isEmpty()) {
+            throw new NotAcceptableException("Ticket not found");
+        }
+        return ResponseEntity.ok(ticketSearch.get());
+    }
 }

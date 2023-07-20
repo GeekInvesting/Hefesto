@@ -18,6 +18,9 @@ public class RabbitMqConnection {
     @Value("${rabbitmq.queue.ticket.zeus}")
     private String queueTicketZeus;
 
+    @Value("${rabbitmq.queue.type.zeus}")
+    private String queueTypeZeus;
+
     public RabbitMqConnection(AmqpAdmin amqpAdmin) {
         this.amqpAdmin = amqpAdmin;
     }
@@ -40,12 +43,20 @@ public class RabbitMqConnection {
 
     @PostConstruct
     private void addQueue() {
-        Queue queue = this.queue(queueTicketZeus);
-        DirectExchange exchange = this.exchange();
-        Binding binding = this.binding(queue, exchange);
+        Queue queueTicket = this.queue(queueTicketZeus);
+        Queue queueType = this.queue(queueTypeZeus);
 
-        this.amqpAdmin.declareQueue(queue);
+        DirectExchange exchange = this.exchange();
+
+        Binding bindingTicket = this.binding(queueTicket, exchange);
+        Binding bindingType = this.binding(queueType, exchange);
+
+        this.amqpAdmin.declareQueue(queueTicket);
+        this.amqpAdmin.declareQueue(queueType);
+
         this.amqpAdmin.declareExchange(exchange);
-        this.amqpAdmin.declareBinding(binding);
+
+        this.amqpAdmin.declareBinding(bindingTicket);
+        this.amqpAdmin.declareBinding(bindingType);
     }
 }

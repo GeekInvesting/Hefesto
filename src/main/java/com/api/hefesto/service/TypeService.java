@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.api.hefesto.dto.TypeCodeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +35,9 @@ public class TypeService {
 
     public List<String> listTypeCode(){
         return typeRepository.listAllTypeCode();
+    }
+
+    public List<TypeCodeDto> listTypeAutocomplete(){
+        return typeRepository.listTypeCode();
     }
 }
