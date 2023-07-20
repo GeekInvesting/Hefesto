@@ -26,6 +26,9 @@ Version with the implementation of service to create the queue and send messages
 Version with the service for list ticket for yield and for wallet.
 Fixing the problems and bugs.
 
+### Version 0.0.7-SNAPSHOT
+Version with the service for list type for rate IR and for wallet.
+
 ## Suporte
 Para suporte, mande um email para hedermilani@gmail.com.
 
