@@ -12,15 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.api.hefesto.controller.exception.handler.NotAcceptableException;
@@ -154,7 +146,7 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.getAllTickets());
     }
 
-    @PutMapping("{id}")
+    @PatchMapping("{id}")
     public ResponseEntity<Object> updateTicket(@PathVariable UUID id, @RequestBody TicketDto ticketDto) {
         LOG.info("Update Ticket to: " + ticketDto.toString());
 
@@ -163,6 +155,11 @@ public class TicketController {
         if (!ticketSearch.isPresent()) {
             throw new NotAcceptableException("Ticket not found");
         }
+
+        ticketSearch.get().setTicketCode(
+                ticketDto.getTicketCode() == null
+                        ? ticketSearch.get().getTicketCode()
+                        : ticketDto.getTicketCode().toUpperCase().trim());
 
         ticketSearch.get().setTicketAlpha(
                 ticketDto.getTicketAlpha() == null
