@@ -36,3 +36,5 @@ rabbitmq:
       zeus: TicketToZeus
     type:
       zeus: TypeToZeus
+    company:
+      demeter: CompanyToDemeter

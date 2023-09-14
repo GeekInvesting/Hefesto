@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.api.hefesto.service.RabbitMqService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,6 +35,12 @@ public class CompanyController {
 
     @Autowired
     private CompanyService companyService;
+
+    @Autowired
+    private RabbitMqService rabbitMqService;
+
+    @Value("${rabbitmq.queue.company.demeter}")
+    private String queueDemeter;
 
     @PostMapping
     public ResponseEntity<Object> createCompany(@RequestBody CompanyModel companyDto) {
@@ -71,6 +79,7 @@ public class CompanyController {
         }
 
         // TODO: Implementar serviço preencher dados companhia
+        rabbitMqService.sendMessage(queueDemeter, companyCreate);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(companyCreate.getId()).toUri();
@@ -158,6 +167,8 @@ public class CompanyController {
         companyModel.get().setCompanyDeleted(false);
 
         CompanyModel companyUpdate = companyService.saveCompany(companyModel.get());
+
+        rabbitMqService.sendMessage(queueDemeter, companyUpdate);
 
         if (companyUpdate == null) {
             throw new NotAcceptableException("Error to update company");

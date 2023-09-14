@@ -1,27 +1,33 @@
-{"properties": [
-  {
-    "name": "jwt.secret",
-    "type": "java.lang.String",
-    "description": "A description for 'jwt.secret'"
-  },
-  {
-    "name": "jwt.key-system",
-    "type": "java.lang.String",
-    "description": "A description for 'jwt.key-sistem'"
-  },
-  {
-    "name": "cors.origin",
-    "type": "java.lang.String",
-    "description": "A description for 'cors.origin'"
-  },
-  {
-    "name": "rabbitmq.queue.country.hefesto",
-    "type": "java.lang.String",
-    "description": "A description for 'rabbitmq.queue.country.hefesto'"
-  },
-  {
-    "name": "rabbitmq.queue.ticket.zeus",
-    "type": "java.lang.String",
-    "description": "A description for 'rabbitmq.queue.ticket.zeus'"
+{
+  "properties": [
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "A description for 'jwt.secret'"
+    },
+    {
+      "name": "jwt.key-system",
+      "type": "java.lang.String",
+      "description": "A description for 'jwt.key-sistem'"
+    },
+    {
+      "name": "cors.origin",
+      "type": "java.lang.String",
+      "description": "A description for 'cors.origin'"
+    },
+    {
+      "name": "rabbitmq.queue.country.hefesto",
+      "type": "java.lang.String",
+      "description": "A description for 'rabbitmq.queue.country.hefesto'"
+    },
+    {
+      "name": "rabbitmq.queue.ticket.zeus",
+      "type": "java.lang.String",
+      "description": "A description for 'rabbitmq.queue.ticket.zeus'"
+    },
+    {
+      "name": "rabbitmq.queue.company.demeter",
+      "type": "java.lang.String",
+      "description": "Description for rabbitmq.queue.company.demeter."
   }
 ]}
