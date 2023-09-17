@@ -24,6 +24,9 @@ public class RabbitMqConnection {
     @Value("${rabbitmq.queue.company.demeter}")
     private String queueCompanyDemeter;
 
+    @Value("${rabbitmq.queue.report.price}")
+    private String queueReportPrice;
+
     public RabbitMqConnection(AmqpAdmin amqpAdmin) {
         this.amqpAdmin = amqpAdmin;
     }
@@ -49,21 +52,25 @@ public class RabbitMqConnection {
         Queue queueTicket = this.queue(queueTicketZeus);
         Queue queueType = this.queue(queueTypeZeus);
         Queue queueCompany = this.queue(queueCompanyDemeter);
+        Queue queueReport = this.queue(queueReportPrice);
 
         DirectExchange exchange = this.exchange();
 
         Binding bindingTicket = this.binding(queueTicket, exchange);
         Binding bindingType = this.binding(queueType, exchange);
         Binding bindingCompany = this.binding(queueCompany, exchange);
+        Binding bindingReport = this.binding(queueReport, exchange);
 
         this.amqpAdmin.declareQueue(queueTicket);
         this.amqpAdmin.declareQueue(queueType);
         this.amqpAdmin.declareQueue(queueCompany);
+        this.amqpAdmin.declareQueue(queueReport);
 
         this.amqpAdmin.declareExchange(exchange);
 
         this.amqpAdmin.declareBinding(bindingTicket);
         this.amqpAdmin.declareBinding(bindingType);
         this.amqpAdmin.declareBinding(bindingCompany);
+        this.amqpAdmin.declareBinding(bindingReport);
     }
 }

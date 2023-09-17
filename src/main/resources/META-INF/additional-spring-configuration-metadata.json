@@ -29,5 +29,10 @@
       "name": "rabbitmq.queue.company.demeter",
       "type": "java.lang.String",
       "description": "Description for rabbitmq.queue.company.demeter."
-  }
-]}
+    },
+    {
+      "name": "rabbitmq.queue.scheduler.price",
+      "type": "java.lang.String",
+      "description": "Description for rabbitmq.queue.scheduler.price."
+    }
+  ]}
