@@ -1,13 +1,11 @@
 package com.api.hefesto.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.Persistent;
 
 @Entity
 @Table(name = "TB_COMPANY")
@@ -21,10 +19,14 @@ public class CompanyModel implements Serializable {
     private String companyCode;
     private String companyLogo;
     private String companySiteRi;
+    private String issuerCode;
     private String companyMainActivity;
     private String companyAbout;
     private boolean companyEnabled;
     private boolean companyDeleted;
+
+    @OneToMany(mappedBy = "ticketCompany")
+    private List<TicketModel> tickets;
 
     public CompanyModel() {
     }
@@ -36,6 +38,19 @@ public class CompanyModel implements Serializable {
         this.companyCode = companyCode;
         this.companyLogo = companyLogo;
         this.companySiteRi = companySiteRi;
+        this.companyMainActivity = companyMainActivity;
+        this.companyAbout = companyAbout;
+        this.companyEnabled = companyEnabled;
+        this.companyDeleted = companyDeleted;
+    }
+
+    public CompanyModel(UUID id, String companyName, String companyCode, String companyLogo, String companySiteRi, String issuerCode, String companyMainActivity, String companyAbout, boolean companyEnabled, boolean companyDeleted) {
+        this.id = id;
+        this.companyName = companyName;
+        this.companyCode = companyCode;
+        this.companyLogo = companyLogo;
+        this.companySiteRi = companySiteRi;
+        this.issuerCode = issuerCode;
         this.companyMainActivity = companyMainActivity;
         this.companyAbout = companyAbout;
         this.companyEnabled = companyEnabled;
@@ -119,6 +134,14 @@ public class CompanyModel implements Serializable {
         this.companyDeleted = companyDeleted;
     }
 
+    public String getIssuerCode() {
+        return issuerCode;
+    }
+
+    public void setIssuerCode(String issuerCode) {
+        this.issuerCode = issuerCode;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -132,6 +155,7 @@ public class CompanyModel implements Serializable {
         result = prime * result + ((companyAbout == null) ? 0 : companyAbout.hashCode());
         result = prime * result + (companyEnabled ? 1231 : 1237);
         result = prime * result + (companyDeleted ? 1231 : 1237);
+        result = prime * result + ((issuerCode == null) ? 0 : issuerCode.hashCode());
         return result;
     }
 
@@ -183,15 +207,28 @@ public class CompanyModel implements Serializable {
             return false;
         if (companyDeleted != other.companyDeleted)
             return false;
+        if (issuerCode == null) {
+            if (other.issuerCode != null)
+                return false;
+        } else if (!issuerCode.equals(other.issuerCode))
+            return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "CompanyModel [id=" + id + ", companyName=" + companyName + ", companyCode=" + companyCode
-                + ", companyLogo=" + companyLogo + ", companySiteRi=" + companySiteRi + ", companyMainActivity="
-                + companyMainActivity + ", companyAbout=" + companyAbout + ", companyEnabled=" + companyEnabled
-                + ", companyDeleted=" + companyDeleted + "]";
+        return "CompanyModel{" +
+                "id=" + id +
+                ", companyName='" + companyName + '\'' +
+                ", companyCode='" + companyCode + '\'' +
+                ", companyLogo='" + companyLogo + '\'' +
+                ", companySiteRi='" + companySiteRi + '\'' +
+                ", issuerCode='" + issuerCode + '\'' +
+                ", companyMainActivity='" + companyMainActivity + '\'' +
+                ", companyAbout='" + companyAbout + '\'' +
+                ", companyEnabled=" + companyEnabled +
+                ", companyDeleted=" + companyDeleted +
+                ", tickets=" + tickets +
+                '}';
     }
-
 }

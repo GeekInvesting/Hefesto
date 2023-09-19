@@ -1,10 +1,12 @@
 package com.api.hefesto.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,6 +20,9 @@ public class CountryModel implements Serializable {
     private String countryCode;
     private boolean countryEnabled;
     private boolean countryDeleted;
+
+    @OneToMany(mappedBy = "exchangeCountry")
+    private List<ExchangeModel> exchanges;
 
     public CountryModel() {
     }

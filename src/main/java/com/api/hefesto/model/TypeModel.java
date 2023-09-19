@@ -1,13 +1,10 @@
 package com.api.hefesto.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name= "TB_TYPE")
@@ -21,6 +18,9 @@ public class TypeModel implements Serializable {
     private String typeName;
     private boolean typeEnabled;
     private boolean typeDeleted;
+
+    @OneToMany(mappedBy = "ticketType")
+    private List<TicketModel> tickets;
 
     public TypeModel() {
     }

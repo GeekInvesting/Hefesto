@@ -2,39 +2,51 @@
 
 # Hefesto
 
-Microserviço para Companhias e Bolsas no sistema **PulseInvest**.
+Microsserviço para gestão de Companhias e Bolsas de Valores no sistema **PulseInvest**.
 
-# Release
+## Índice
+1. [Versões do Projeto](#versões-do-projeto)
+2. [Instalação e Configuração](#instalação-e-configuração)
+3. [Uso](#uso)
+4. [Suporte](#suporte)
+5. [Códigos de Erros](#códigos-de-erros)
 
+## Versões do Projeto
 
 ### Version 0.0.1-SNAPSHOT
-Versão compõe a criação e configuração do serviço.
+Primeira versionamento do sistema com a criação e configuração inicial do serviço.
 
 ### Version 0.0.2-SNAPSHOT
-Versão com a implementação de serviço para receber e processar mensagens com o objeto Pais pelo RabbitMQ.
+Implementação de serviço para receber e processar mensagens com o objeto Pais pelo RabbitMQ.
 
 ### Version 0.0.3-SNAPSHOT
-Versão com a implementação de serviço para Gerenciar o cadastro de Exchange e Setores para as Companhias.
+Implementação do serviço para Gerenciar o cadastro de Exchange e Setores para as Companhias.
 
 ### Version 0.0.4-SNAPSHOT
-Versão com a implementação de serviço para Gerenciar o cadastro de Companhias e Tickets.
+Implementação do serviço para Gerenciar o cadastro de Companhias e Tickets.
 
 ### Version 0.0.5-SNAPSHOT
-Version with the implementation of service to create the queue and send messages to the RabbitMQ.
+Implementação do serviço para criar a fila e enviar mensagens para o RabbitMQ.
 
 ### Version 0.0.6-SNAPSHOT
-Version with the service for list ticket for yield and for wallet.
-Fixing the problems and bugs.
+Implementação do serviço para listar Tickets por yield e carteira. Correções de bugs.
 
 ### Version 0.0.7-SNAPSHOT
-Version with the service for list type for rate IR and for wallet.
+Implementação do serviço para listar tipos de rate IR e para carteira.
+
+### Version 0.0.8-SNAPSHOT
+Implementação do serviço para melhorar relacionamento entre dados e fila para report de preços.
+
+## Instalação e Configuração
+(Insira aqui os passos para a instalação e configuração do serviço)
+
+## Uso
+(Descreva aqui como o serviço deve ser usado, possíveis entradas e saídas, fluxo do sistema, etc)
 
 ## Suporte
-Para suporte, mande um email para hedermilani@gmail.com.
+Para suporte, entre em contato através do e-mail: hedermilani@gmail.com.
 
-### Códigos de erros disponiveis
-
-| Cod Erro | Descrição |
+## Códigos de Erros
+| Codigo | Descrição |
 | :------: | :-------- |
-
-
+| (Codigo da Exceção) | (Descrição da Exceção) |

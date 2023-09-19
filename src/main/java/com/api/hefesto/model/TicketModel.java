@@ -3,11 +3,8 @@ package com.api.hefesto.model;
 import java.io.Serializable;
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.Persistent;
 
 @Entity
 @Table(name = "TB_TICKET")
@@ -18,12 +15,31 @@ public class TicketModel implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String ticketCode;
+
+    @ManyToOne
+    @JoinColumn(name = "companyId")
     private CompanyModel ticketCompany;
+    //private UUID companyId;
+
+    @ManyToOne
+    @JoinColumn(name = "typeId")
     private TypeModel ticketType;
+    //private UUID typeId;
+
+    @ManyToOne
+    @JoinColumn(name = "subsectorId")
     private SubsectorModel ticketSubsector;
+    //private UUID subsectorId;
+
+    @ManyToOne
+    @JoinColumn(name = "exchangeId")
     private ExchangeModel ticketExchange;
+    //private UUID exchangeId;
+
     private String ticketAlpha;
     private String ticketCvmCode;
+    private String currency;
+    private String region;
     private boolean ticketEnabled;
     private boolean ticketDeleted;
 
@@ -32,7 +48,7 @@ public class TicketModel implements Serializable{
 
     public TicketModel(UUID id, String ticketCode, CompanyModel ticketCompany, TypeModel ticketType, SubsectorModel ticketSubsector,
             ExchangeModel ticketExchange, String ticketAlpha, String ticketCvmCode, boolean ticketEnabled,
-            boolean ticketDeleted) {
+            boolean ticketDeleted, String currency, String region) {
         this.id = id;
         this.ticketCode = ticketCode;
         this.ticketCompany = ticketCompany;
@@ -43,6 +59,8 @@ public class TicketModel implements Serializable{
         this.ticketCvmCode = ticketCvmCode;
         this.ticketEnabled = ticketEnabled;
         this.ticketDeleted = ticketDeleted;
+        this.currency = currency;
+        this.region = region;
     }
 
     public TicketModel(String ticketCode){
@@ -129,6 +147,22 @@ public class TicketModel implements Serializable{
         this.ticketDeleted = ticketDeleted;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -143,6 +177,8 @@ public class TicketModel implements Serializable{
         result = prime * result + ((ticketCvmCode == null) ? 0 : ticketCvmCode.hashCode());
         result = prime * result + (ticketEnabled ? 1231 : 1237);
         result = prime * result + (ticketDeleted ? 1231 : 1237);
+        result = prime * result + ((currency == null) ? 0 : currency.hashCode());
+        result = prime * result + ((region == null) ? 0 : region.hashCode());
         return result;
     }
 
@@ -199,6 +235,12 @@ public class TicketModel implements Serializable{
             return false;
         if (ticketDeleted != other.ticketDeleted)
             return false;
+        if (currency == null) {
+            if (other.currency != null)
+                return false;
+        } else if (!currency.equals(other.currency)){
+            return false;
+        }
         return true;
     }
 
@@ -207,7 +249,7 @@ public class TicketModel implements Serializable{
         return "TicketModel [id=" + id + ", ticketCode=" + ticketCode + ", ticketCompany=" + ticketCompany
                 + ", ticketType=" + ticketType + ", ticketSubsector=" + ticketSubsector + ", ticketExchange="
                 + ticketExchange + ", ticketAlpha=" + ticketAlpha + ", ticketCvmCode=" + ticketCvmCode
-                + ", ticketEnabled=" + ticketEnabled + ", ticketDeleted=" + ticketDeleted + "]";
+                + ", currency=" + currency + ", region=" + region + ", ticketEnabled=" + ticketEnabled + ", ticketDeleted=" + ticketDeleted + "]";
     }
 
 }

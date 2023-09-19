@@ -17,4 +17,6 @@ public interface CompanyRepository extends JpaRepository<CompanyModel, UUID> {
 
     @Query("SELECT c.companyName FROM CompanyModel c WHERE c.companyEnabled = true AND c.companyDeleted = false")
     public List<String> findAllCompanyName();
+
+    public Boolean existsByCompanyNameIgnoreCase(String companyName);
 }

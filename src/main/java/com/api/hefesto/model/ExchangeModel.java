@@ -1,15 +1,10 @@
 package com.api.hefesto.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TB_EXCHANGE")
@@ -29,7 +24,8 @@ public class ExchangeModel implements Serializable {
     @Column(length = 3)
     private String exchangeCurrency;
 
-    @JoinColumn
+    @ManyToOne
+    @JoinColumn(name = "countryId")
     private CountryModel exchangeCountry;
 
     @Column
@@ -37,6 +33,9 @@ public class ExchangeModel implements Serializable {
 
     @Column
     private boolean exchangeDeleted;
+
+    @OneToMany(mappedBy = "ticketExchange")
+    private List<TicketModel> tickets;
 
     public ExchangeModel() {
     }

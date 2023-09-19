@@ -20,6 +20,9 @@ spring:
     port: 5672
     username: admin
     password: 123456
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
 
 jwt:
   secret: nNEnkoaV9kT3W$fpWvkAgewuwHcNXA2$2pPX@GavjNXwQ&VGiWdbquq2uzT8BNvktQz8C$bc$ei#GFTKDGc9d7Jf63%UTS$NWa$E
@@ -36,3 +39,9 @@ rabbitmq:
       zeus: TicketToZeus
     type:
       zeus: TypeToZeus
+    company:
+      demeter: CompanyToDemeter
+    scheduler:
+      price: SchedulerToPrice
+    report:
+      price: ReportToPrice

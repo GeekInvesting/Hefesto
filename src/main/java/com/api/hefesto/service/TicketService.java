@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.api.hefesto.dto.TicketPriceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,9 @@ public class TicketService {
 
     public List<ListCodeDto> getAllTicketCode() {
         return ticketRepository.findAllTicketCode();
+    }
+
+    public List<TicketPriceDto> getAllTicketPrice() {
+        return ticketRepository.findAllTicketPrice();
     }
 }
