@@ -49,6 +49,9 @@ public class CompanyController {
         if (StringUtils.isBlank(companyDto.getCompanyName())) {
             throw new NotAcceptableException("Company name is required");
         }
+        if (companyService.existsCompanyByName(companyDto.getCompanyName())) {
+            throw new NotAcceptableException("Company name already exists");
+        }
 
         CompanyModel companyModel = new CompanyModel(
                 companyDto.getCompanyName().toUpperCase().trim());

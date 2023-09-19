@@ -3,11 +3,7 @@ package com.api.hefesto.model;
 import java.io.Serializable;
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.data.annotation.Persistent;
 
 @Entity
@@ -19,10 +15,27 @@ public class TicketModel implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String ticketCode;
+
+    @ManyToOne
+    @JoinColumn(name = "companyId")
     private CompanyModel ticketCompany;
+    //private UUID companyId;
+
+    @ManyToOne
+    @JoinColumn(name = "typeId")
     private TypeModel ticketType;
+    //private UUID typeId;
+
+    @ManyToOne
+    @JoinColumn(name = "subsectorId")
     private SubsectorModel ticketSubsector;
+    //private UUID subsectorId;
+
+    @ManyToOne
+    @JoinColumn(name = "exchangeId")
     private ExchangeModel ticketExchange;
+    //private UUID exchangeId;
+
     private String ticketAlpha;
     private String ticketCvmCode;
     private String currency;

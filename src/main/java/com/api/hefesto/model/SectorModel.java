@@ -1,14 +1,10 @@
 package com.api.hefesto.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "TB_SECTOR")
@@ -27,6 +23,9 @@ public class SectorModel implements Serializable {
 
     @Column
     private boolean sectorDeleted;
+
+    @OneToMany(mappedBy = "sectorModel")
+    private List<SubsectorModel> subsectors;
 
     public SectorModel() {
     }

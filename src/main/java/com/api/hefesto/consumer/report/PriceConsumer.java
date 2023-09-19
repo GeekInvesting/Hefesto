@@ -2,6 +2,7 @@ package com.api.hefesto.consumer.report;
 
 import com.api.hefesto.dto.ListCodeDto;
 import com.api.hefesto.dto.ReportDto;
+import com.api.hefesto.dto.TicketPriceDto;
 import com.api.hefesto.dto.UserDto;
 import com.api.hefesto.service.RabbitMqService;
 import com.api.hefesto.service.TicketService;
@@ -52,13 +53,13 @@ public class PriceConsumer {
 
         LOG.debug("ReportDto: " + reportDto.toString());
 
-        List<ListCodeDto> ticketCode = ticketService.getAllTicketCode();
+        List<TicketPriceDto> ticketPrice = ticketService.getAllTicketPrice();
 
-        LOG.info("Ticket Code: " + ticketCode);
+        LOG.info("Ticket Code: " + ticketPrice);
 
-        if (ticketCode != null) {
-            for (ListCodeDto listCodeDto : ticketCode) {
-                rabbitMqService.sendMessage(queueReportPrice, listCodeDto);
+        if (ticketPrice != null) {
+            for (TicketPriceDto item : ticketPrice) {
+                rabbitMqService.sendMessage(queueReportPrice, item);
             }
         }
     }

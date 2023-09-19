@@ -35,4 +35,8 @@ public class CompanyService {
     public List<String> listCompanyName(){
         return companyRepository.findAllCompanyName();
     }
+
+    public boolean existsCompanyByName(String companyName){
+        return companyRepository.existsByCompanyNameIgnoreCase(companyName);
+    }
 }
