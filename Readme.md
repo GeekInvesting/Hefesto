@@ -34,6 +34,9 @@ Implementação do serviço para listar Tickets por yield e carteira. Correçõe
 ### Version 0.0.7-SNAPSHOT
 Implementação do serviço para listar tipos de rate IR e para carteira.
 
+### Version 0.0.8-SNAPSHOT
+Implementação do serviço para melhorar relacionamento entre dados e fila para report de preços.
+
 ## Instalação e Configuração
 (Insira aqui os passos para a instalação e configuração do serviço)
 
