@@ -20,7 +20,9 @@ public class CompanyModel implements Serializable {
     private String companyLogo;
     private String companySiteRi;
     private String issuerCode;
+    @Column(length = 10000)
     private String companyMainActivity;
+    @Column(length = 10000)
     private String companyAbout;
     private boolean companyEnabled;
     private boolean companyDeleted;

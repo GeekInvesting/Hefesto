@@ -28,6 +28,6 @@ public class CompanyConsumer {
 
         company = mapper.readValue(companyMq, CompanyModel.class);
 
-        LOG.debug("Company Save of Listener: " + company.toString());
+        companyService.saveCompanyByConsumer(company);
     }
 }
