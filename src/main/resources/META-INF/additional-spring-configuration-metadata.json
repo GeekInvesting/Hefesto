@@ -34,5 +34,10 @@
       "name": "rabbitmq.queue.scheduler.price",
       "type": "java.lang.String",
       "description": "Description for rabbitmq.queue.scheduler.price."
+    },
+    {
+      "name": "rabbitmq.queue.company.hefesto",
+      "type": "java.lang.String",
+      "description": "Description for rabbitmq.queue.company.hefesto."
     }
   ]}

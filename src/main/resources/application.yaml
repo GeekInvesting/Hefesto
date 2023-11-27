@@ -41,6 +41,7 @@ rabbitmq:
       zeus: TypeToZeus
     company:
       demeter: CompanyToDemeter
+      hefesto: CompanyToHefesto
     scheduler:
       price: SchedulerToPrice
     report:
