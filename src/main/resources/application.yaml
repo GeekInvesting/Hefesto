@@ -46,3 +46,5 @@ rabbitmq:
       price: SchedulerToPrice
     report:
       price: ReportToPrice
+    sector:
+      hefesto: SectorToHefesto

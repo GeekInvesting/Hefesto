@@ -39,5 +39,10 @@
       "name": "rabbitmq.queue.company.hefesto",
       "type": "java.lang.String",
       "description": "Description for rabbitmq.queue.company.hefesto."
+    },
+    {
+      "name": "rabbitmq.queue.sector.hefesto",
+      "type": "java.lang.String",
+      "description": "Description for rabbitmq.queue.sector.hefesto."
     }
   ]}

@@ -19,14 +19,13 @@ public class CompanyConsumer {
     @Autowired
     private CompanyService companyService;
 
-    private CompanyModel company = new CompanyModel();
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @RabbitListener(queues = "${rabbitmq.queue.company.hefesto}")
     public void CompanyListen(@Payload String companyMq) throws JsonProcessingException {
         LOG.info("Company Save of Listener: " + companyMq);
 
-        company = mapper.readValue(companyMq, CompanyModel.class);
+        CompanyModel company = mapper.readValue(companyMq, CompanyModel.class);
 
         companyService.saveCompanyByConsumer(company);
     }
