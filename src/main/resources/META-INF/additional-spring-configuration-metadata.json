@@ -44,5 +44,10 @@
       "name": "rabbitmq.queue.sector.hefesto",
       "type": "java.lang.String",
       "description": "Description for rabbitmq.queue.sector.hefesto."
+    },
+    {
+      "name": "rabbit.queue.type.hefesto",
+      "type": "java.lang.String",
+      "description": "Description for rabbit.queue.type.hefesto."
     }
   ]}
