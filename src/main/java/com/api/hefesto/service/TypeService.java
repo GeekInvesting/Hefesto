@@ -1,6 +1,7 @@
 package com.api.hefesto.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,5 +40,14 @@ public class TypeService {
 
     public List<TypeCodeDto> listTypeAutocomplete(){
         return typeRepository.listTypeCode();
+    }
+
+    public TypeModel saveTypeByConsumer(TypeModel typeModel){
+        TypeModel type = typeRepository.findByTypeCodeIgnoreCase(typeModel.getTypeCode()).orElse(null);
+        return Objects.requireNonNullElseGet(type, () -> typeRepository.save(new TypeModel(null,
+                typeModel.getTypeCode().toUpperCase(),
+                typeModel.getTypeName().toUpperCase(),
+                true,
+                false)));
     }
 }
