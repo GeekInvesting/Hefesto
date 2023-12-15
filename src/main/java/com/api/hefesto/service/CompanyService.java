@@ -39,4 +39,14 @@ public class CompanyService {
     public boolean existsCompanyByName(String companyName){
         return companyRepository.existsByCompanyNameIgnoreCase(companyName);
     }
+
+    public void saveCompanyByConsumer(CompanyModel companySave){
+    CompanyModel company = companyRepository.findByCompanyNameIgnoreCase(companySave.getCompanyName()).orElse(null);
+        if(company == null){
+            companyRepository.save(companySave);
+        } else {
+            companySave.setId(company.getId());
+            companyRepository.save(companySave);
+        }
+    }
 }

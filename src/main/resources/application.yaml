@@ -39,9 +39,13 @@ rabbitmq:
       zeus: TicketToZeus
     type:
       zeus: TypeToZeus
+      hefesto: TypeToHefesto
     company:
       demeter: CompanyToDemeter
+      hefesto: CompanyToHefesto
     scheduler:
       price: SchedulerToPrice
     report:
       price: ReportToPrice
+    sector:
+      hefesto: SectorToHefesto

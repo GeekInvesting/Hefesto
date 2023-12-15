@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.api.hefesto.dto.SubsectorDto;
+import com.api.hefesto.model.SectorModel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +16,7 @@ import com.api.hefesto.repository.SubsectorRepository;
 
 @Service
 public class SubsectorService {
+    private static final Logger LOG = LogManager.getLogger(SubsectorService.class);
 
     @Autowired
     private SubsectorRepository subsectorRepository;
@@ -42,5 +47,18 @@ public class SubsectorService {
 
     public List<String> listAllSubsectorName(){
         return subsectorRepository.listAllSubsectorName();
+    }
+
+    public void saveSubsectorByConsumer(SubsectorDto subsectorDto, SectorModel sectorModel) {
+        LOG.info("Subsector Save of Listener: " + subsectorDto.getSubsectorName());
+        SubsectorModel subsector = subsectorRepository.findBySubsectorNameIgnoreCase(subsectorDto.getSubsectorName()).orElse(null);
+        if(subsector == null){
+            subsectorRepository.save(new SubsectorModel(null, subsectorDto.getSubsectorName().toUpperCase(), true, false, sectorModel));
+        } else {
+            subsector.setSubsectorEnabled(true);
+            subsector.setSubsectorDeleted(false);
+            subsector.setSectorModel(sectorModel);
+            subsectorRepository.save(subsector);
+        }
     }
 }
